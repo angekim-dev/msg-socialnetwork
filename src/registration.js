@@ -53,6 +53,10 @@ export default class Registration extends React.Component {
                 <h3>I am the Registration Component!</h3>
                 <Link to="/login">Click here to Log in!</Link>
                 <br></br>
+                <Link to="/password/reset/start">
+                    Forgot your password? Click here!
+                </Link>
+                <br></br>
                 {this.state.error && <div>Oops something went wrong</div>}
                 <input
                     name="first"

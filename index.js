@@ -7,6 +7,9 @@ const csurf = require("csurf");
 const db = require("./db");
 const { hash, compare } = require("./bc");
 
+const ses = require("./ses");
+const cryptoRandomString = require("crypto-random-string");
+
 app.use(compression());
 app.use(express.static("./public"));
 
@@ -38,6 +41,7 @@ if (process.env.NODE_ENV != "production") {
     app.use("/bundle.js", (req, res) => res.sendFile(`${__dirname}/bundle.js`));
 }
 
+////// POST /register /////
 app.post("/register", (req, res) => {
     let { first, last, email, password } = req.body;
     hash(password)
@@ -54,6 +58,7 @@ app.post("/register", (req, res) => {
         });
 });
 
+////// POST /login /////
 app.post("/login", (req, res) => {
     console.log("this is the POST login in index.js");
     let email = req.body.email;
@@ -88,6 +93,48 @@ app.post("/login", (req, res) => {
         });
 });
 
+////// POST /password/reset/start /////
+app.post("/password/reset/start", (req, res) => {
+    let { email } = req.body;
+    db.getUserInfo(email)
+        .then(({ rows }) => {
+            const restoreCode = cryptoRandomString({ length: 6 });
+            db.insertCode(rows[0].email, restoreCode)
+                .then(({ rows }) => {
+                    let to = rows[0].email;
+                    let subject = "Your code for the reset of your password";
+                    let text =
+                        "Here you go. If you did not require it, please ignore the message.";
+                    ses.sendEmail(to, subject, text)
+                        .then(() => {
+                            res.json({ success: true });
+                        })
+                        .catch((err) => {
+                            console.log(
+                                "Error in POST /password/reset/start in sendEmail",
+                                err
+                            );
+                            res.json({ success: false });
+                        });
+                })
+                .catch((err) => {
+                    console.log(
+                        "Error in POST /password/reset/start in insertCode",
+                        err
+                    );
+                    res.json({ success: false });
+                });
+        })
+        .catch((err) => {
+            console.log(
+                "Error in POST /password/reset/start in getUserInfo",
+                err
+            );
+            res.json({ error: true });
+        });
+});
+
+////// GET /welcome /////
 app.get("/welcome", (req, res) => {
     if (req.session.userId) {
         res.redirect("/");
@@ -96,6 +143,7 @@ app.get("/welcome", (req, res) => {
     }
 });
 
+////// GET /* /////
 app.get("*", function (req, res) {
     if (!req.session.userId) {
         res.redirect("/welcome");
