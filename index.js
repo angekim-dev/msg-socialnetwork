@@ -40,14 +40,12 @@ if (process.env.NODE_ENV != "production") {
 
 app.post("/register", (req, res) => {
     let { first, last, email, password } = req.body;
-    console.log("***req.body: ", req.body);
     hash(password)
         .then((hashedPw) => {
             return db.register(first, last, email, hashedPw);
         })
         .then(({ rows }) => {
             req.session.userId = rows[0].id;
-            console.log("**session object: ", req.session);
             res.json({ success: true });
         })
         .catch((err) => {
@@ -60,14 +58,9 @@ app.post("/login", (req, res) => {
     let email = req.body.email;
     let password = req.body.password;
     req.session.user = {};
-    // const user = req.session.user;
-    console.log("***user***", req.session.user);
-    //in our login, we use compare!
-    //we take the users provided password and compare it to what we have stored as a hash in our db
     let id;
     db.getUserInfo(email)
         .then((result) => {
-            // console.log("***result", result);
             let hashedPw = result.rows[0].password;
             id = result.rows[0].id;
             return hashedPw;
@@ -79,8 +72,10 @@ app.post("/login", (req, res) => {
             console.log("matchValue :", matchValue);
             if (matchValue == true) {
                 req.session.user.userId = id;
-                console.log("***JUST ASSIGNED IT****", req.session.user.userId);
-                // res.redirect("/thanks"); // redirect to /petition or /thanks, depending on data flow
+                console.log(
+                    "userId in getUserInfo /login",
+                    req.session.user.userId
+                );
                 res.json({ success: true });
             } else if (matchValue != true) {
                 res.json({ success: false });

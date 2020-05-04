@@ -1,5 +1,6 @@
 import React from "react";
 import axios from "./axios";
+import { Link } from "react-router-dom";
 
 export default class Login extends React.Component {
     constructor() {
@@ -43,6 +44,8 @@ export default class Login extends React.Component {
         return (
             <div className="login">
                 <h3>I am the Login Component!</h3>
+                <Link to="/">Back to registration!</Link>
+                <br></br>
                 {this.state.error && <div>Oops something went wrong</div>}
                 <input
                     name="email"
