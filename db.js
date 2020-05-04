@@ -10,3 +10,6 @@ module.exports.register = (first, last, email, password) => {
         [first, last, email, password]
     );
 };
+module.exports.getUserInfo = (email) => {
+    return db.query(`SELECT * FROM users WHERE email = $1;`, [email]);
+};

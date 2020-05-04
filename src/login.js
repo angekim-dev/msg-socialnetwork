@@ -1,8 +1,7 @@
 import React from "react";
 import axios from "./axios";
-import { Link } from "react-router-dom";
 
-export default class Registration extends React.Component {
+export default class Login extends React.Component {
     constructor() {
         super();
         this.state = {
@@ -20,11 +19,10 @@ export default class Registration extends React.Component {
             () => console.log("this.state", this.state) // sanity check, second argument of this.setState, callback function BECAUSE this.setState asynchronous
         );
     }
-
     submit() {
         console.log("about to submit", this.state);
         axios
-            .post("/register", this.state)
+            .post("/login", this.state)
             .then(({ data }) => {
                 // need route on server
                 console.log("response: ", data);
@@ -37,27 +35,15 @@ export default class Registration extends React.Component {
                 }
             })
             .catch((err) => {
-                console.log("Error in axios.post '/register': ", err);
+                console.log("Error in axios.post '/login': ", err);
             });
     }
 
     render() {
         return (
-            <div className="reg">
-                <h3>I am the Registration Component!</h3>
-                <Link to="/login">Click here to Log in!</Link>
-                <br></br>
+            <div className="login">
+                <h3>I am the Login Component!</h3>
                 {this.state.error && <div>Oops something went wrong</div>}
-                <input
-                    name="first"
-                    placeholder="first"
-                    onChange={(e) => this.handleChange(e)}
-                />
-                <input
-                    name="last"
-                    placeholder="last"
-                    onChange={(e) => this.handleChange(e)}
-                />
                 <input
                     name="email"
                     placeholder="email"
@@ -69,7 +55,7 @@ export default class Registration extends React.Component {
                     type="password"
                     onChange={(e) => this.handleChange(e)}
                 />
-                <button onClick={() => this.submit()}>Register!</button>
+                <button onClick={() => this.submit()}>Login!</button>
             </div>
         );
     }
