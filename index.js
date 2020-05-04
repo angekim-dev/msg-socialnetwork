@@ -49,6 +49,7 @@ app.post("/register", (req, res) => {
             res.json({ success: true });
         })
         .catch((err) => {
+            res.json({ success: false });
             console.log("Error in POST /register in index.js: ", err);
         });
 });

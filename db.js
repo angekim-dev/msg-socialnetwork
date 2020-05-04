@@ -13,3 +13,14 @@ module.exports.register = (first, last, email, password) => {
 module.exports.getUserInfo = (email) => {
     return db.query(`SELECT * FROM users WHERE email = $1;`, [email]);
 };
+
+// SELECT * FROM reset_codes
+// WHERE CURRENT_TIMESTAMP - timestamp < INTERVAL '10 minutes'
+// ORDER BY id DESC
+// LIMIT 1
+
+// INSERT
+
+// SELECT
+
+// UPDATE
