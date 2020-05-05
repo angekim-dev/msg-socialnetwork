@@ -219,11 +219,12 @@ app.post("/upload", uploader.single("file"), s3.upload, (req, res) => {
         // you'll want to eventually make a db insert here for all the info
         return db
             .updatePic(req.session.userId, url)
-            .then((result) => {
-                console.log("***hello body", req.body);
-                console.log("***result", result);
-                res.json(result.rows[0].image_url); //needs to be an object
-                // res.json(req.body.image_url); //works after refresh
+            .then(({ rows }) => {
+                let profilePic = {
+                    imageUrl: rows[0].image_url,
+                };
+
+                res.json(profilePic); //needs to be an object
             })
             .catch((err) => {
                 console.log("Error in updatePic: ", err);
