@@ -11,17 +11,23 @@ export default class Uploader extends React.Component {
     //     console.log("uploader mounted");
     // }
 
-    methodInUploader() {
+    uploadPic() {
         this.props.methodInApp("whoa");
     }
 
+    // closeModal() {
+    //     console.log("closing now");
+    // }
+
     render() {
         return (
-            <div>
+            <div className="uploader-modal">
+                <p onClick={() => this.props.toggleModal()}>X</p>
                 <h2 className="uploader-text">Hello from Uploader</h2>
-                <h2 onClick={() => this.methodInUploader()}>
-                    Click here to run methodInUploader
-                </h2>
+                <input type="file"></input>
+                <button onClick={() => this.uploadPic()}>
+                    upload with uploadPic
+                </button>
             </div>
         );
     }

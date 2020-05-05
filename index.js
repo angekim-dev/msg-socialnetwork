@@ -58,6 +58,22 @@ app.post("/register", (req, res) => {
         });
 });
 
+// app.post("/register", async (req, res) => {
+//     const { first, last, email, password } = req.body;
+
+//     try {
+//         let hashedPw = await hash(password);
+//         console.log("hashedPw", hashedPw);
+//         let id = await db.register(first, last, email, hashedPw);
+
+//         req.session.userId = id;
+//         res.json({ success: true });
+//     } catch (e) {
+//         console.log("e in post register", e);
+//         res.json({ success: false });
+//     }
+// });
+
 ////// POST /login /////
 app.post("/login", (req, res) => {
     console.log("this is the POST login in index.js");

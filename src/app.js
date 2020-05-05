@@ -1,6 +1,7 @@
 import React from "react";
 import Presentational from "./presentational";
 import Uploader from "./uploader";
+import axios from "./axios";
 
 export default class App extends React.Component {
     constructor() {
@@ -15,6 +16,20 @@ export default class App extends React.Component {
 
     componentDidMount() {
         console.log("App mounted");
+        // axios
+        //     .get("/user", { first, last, imageUrl })
+        //     .then(({ data }) => {
+        //         this.setState({
+        //             first: data.first,
+        //             last: data.last,
+        //         });
+        //     })
+        //     .catch((err) => {
+        //         console.log("Error in componentDidMount in app.js: ", err);
+        //         this.setState({
+        //             // sth
+        //         });
+        //     });
 
         // here make an axios request to 'get' info about logged in user (first name, last name and profilePicUrl / imageUrl)
         // an axios route '/user' is a good path for it
@@ -38,18 +53,19 @@ export default class App extends React.Component {
         return (
             <div>
                 <h1>Hello from App</h1>
-                <h2 onClick={() => this.toggleModal()}>
-                    Changing uploaderIsVisible state with a method!
-                </h2>
                 <Presentational
                     // becomes props object in Presentational with following key value pairs:
                     first={this.state.first}
                     last={this.state.last}
                     imageUrl={this.state.imageUrl}
+                    toggleModal={() => this.toggleModal()}
                 />
 
                 {this.state.uploaderIsVisible && (
-                    <Uploader methodInApp={this.methodInApp} />
+                    <Uploader
+                        methodInApp={this.methodInApp}
+                        toggleModal={() => this.toggleModal()}
+                    />
                 )}
             </div>
         );

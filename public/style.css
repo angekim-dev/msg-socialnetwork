@@ -9,6 +9,12 @@
 .pic {
     max-height: 200px;
 }
+.uploader-modal {
+    position: fixed;
+    background-color: coral;
+    top: 0;
+    left: 0;
+}
 .uploader-text {
     color: chartreuse;
 }
