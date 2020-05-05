@@ -7,33 +7,25 @@ export default class App extends React.Component {
     constructor() {
         super();
         this.state = {
-            first: "Angelika",
-            last: "Kim",
-            // hardcoded for now, normally info coming from axios request from databank
             uploaderIsVisible: false,
         };
     }
 
     componentDidMount() {
         console.log("App mounted");
-        // axios
-        //     .get("/user", { first, last, imageUrl })
-        //     .then(({ data }) => {
-        //         this.setState({
-        //             first: data.first,
-        //             last: data.last,
-        //         });
-        //     })
-        //     .catch((err) => {
-        //         console.log("Error in componentDidMount in app.js: ", err);
-        //         this.setState({
-        //             // sth
-        //         });
-        //     });
-
-        // here make an axios request to 'get' info about logged in user (first name, last name and profilePicUrl / imageUrl)
-        // an axios route '/user' is a good path for it
-        // when we finally have the info from the server, you will want to add it to the state of component (i.e. with setState)
+        axios
+            .get("/user")
+            .then(({ data }) => {
+                console.log("componentDidMount data: ", data);
+                this.setState({
+                    first: data.first,
+                    last: data.last,
+                    imageUrl: data.image_url,
+                });
+            })
+            .catch((err) => {
+                console.log("Error in componentDidMount in app.js: ", err);
+            });
     }
 
     toggleModal() {
@@ -47,6 +39,9 @@ export default class App extends React.Component {
     methodInApp(arg) {
         console.log("methodInApp running! and the argument is:", arg);
         // imageUrl
+        this.setState({
+            imageUrl: arg,
+        });
     }
 
     render() {
@@ -63,7 +58,7 @@ export default class App extends React.Component {
 
                 {this.state.uploaderIsVisible && (
                     <Uploader
-                        methodInApp={this.methodInApp}
+                        methodInApp={(arg) => this.methodInApp(arg)}
                         toggleModal={() => this.toggleModal()}
                     />
                 )}

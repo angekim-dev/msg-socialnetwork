@@ -4,11 +4,36 @@ const compression = require("compression");
 const cookieSession = require("cookie-session");
 const csurf = require("csurf");
 
+const s3 = require("./s3");
+const config = require("./config.json");
+
 const db = require("./db");
 const { hash, compare } = require("./bc");
 
 const ses = require("./ses");
 const cryptoRandomString = require("crypto-random-string");
+
+////////////// IMAGE UPLOAD BOILERPLATE ///////////////
+const multer = require("multer");
+const uidSafe = require("uid-safe");
+const path = require("path");
+const diskStorage = multer.diskStorage({
+    destination: function (req, file, callback) {
+        callback(null, __dirname + "/uploads");
+    },
+    filename: function (req, file, callback) {
+        uidSafe(24).then(function (uid) {
+            callback(null, uid + path.extname(file.originalname));
+        });
+    },
+});
+const uploader = multer({
+    storage: diskStorage,
+    limits: {
+        fileSize: 2097152,
+    },
+});
+////////////////////////////////////////////
 
 app.use(compression());
 app.use(express.static("./public"));
@@ -182,6 +207,35 @@ app.post("/password/reset/verify", (req, res) => {
         });
 });
 
+///// POST /upload /////
+app.post("/upload", uploader.single("file"), s3.upload, (req, res) => {
+    console.log("file: ", req.file); // file we just uploaded
+    console.log("input: ", req.body); // input fields from the client
+    console.log("***hallo s3", config.s3Url);
+    console.log("***hallo url", config.s3Url + req.file.filename);
+    let url = config.s3Url + req.file.filename;
+    req.body.image_url = url;
+    if (req.file) {
+        // you'll want to eventually make a db insert here for all the info
+        return db
+            .updatePic(req.session.userId, url)
+            .then((result) => {
+                console.log("***hello body", req.body);
+                console.log("***result", result);
+                res.json(result.rows[0].image_url); //needs to be an object
+                // res.json(req.body.image_url); //works after refresh
+            })
+            .catch((err) => {
+                console.log("Error in updatePic: ", err);
+                res.json({ success: false });
+            });
+    } else {
+        res.json({
+            success: false,
+        });
+    }
+});
+
 ////// GET /welcome /////
 app.get("/welcome", (req, res) => {
     if (req.session.userId) {
@@ -189,6 +243,21 @@ app.get("/welcome", (req, res) => {
     } else {
         res.sendFile(__dirname + "/index.html");
     }
+});
+
+///// GET /user /////
+app.get("/user", (req, res) => {
+    // console.log("GET /user");
+    // console.log("req.session.userId in index.js", req.session.userId);
+    return db
+        .getUser(req.session.userId)
+        .then(({ rows }) => {
+            // console.log("rows[0] in get user in index.js", rows[0]);
+            res.json(rows[0]);
+        })
+        .catch((err) => {
+            console.log("Error in getUser in index.js: ", err);
+        });
 });
 
 ////// GET /* /////

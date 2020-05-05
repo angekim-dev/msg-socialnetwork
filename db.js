@@ -15,6 +15,10 @@ module.exports.getUserInfo = (email) => {
     return db.query(`SELECT * FROM users WHERE email = $1;`, [email]);
 };
 
+module.exports.getUser = (id) => {
+    return db.query(`SELECT * FROM users WHERE id = $1;`, [id]);
+};
+
 module.exports.verifyUser = (email) => {
     return db.query(
         `SELECT * FROM reset_codes
@@ -39,5 +43,15 @@ module.exports.updatePassword = (email, newPassword) => {
         `UPDATE users SET password = $2
         WHERE email = $1;`,
         [email, newPassword]
+    );
+};
+
+module.exports.updatePic = (id, image_url) => {
+    return db.query(
+        `UPDATE users
+        SET image_url = $2
+        WHERE id = $1
+        RETURNING *;`,
+        [id, image_url]
     );
 };
