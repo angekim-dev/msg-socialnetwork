@@ -63,7 +63,7 @@ app.post("/login", (req, res) => {
     console.log("this is the POST login in index.js");
     let email = req.body.email;
     let password = req.body.password;
-    req.session.user = {};
+    req.session = {};
     let id;
     db.getUserInfo(email)
         .then((result) => {
@@ -77,11 +77,8 @@ app.post("/login", (req, res) => {
         .then((matchValue) => {
             console.log("matchValue :", matchValue);
             if (matchValue == true) {
-                req.session.user.userId = id;
-                console.log(
-                    "userId in getUserInfo /login",
-                    req.session.user.userId
-                );
+                req.session.userId = id;
+                console.log("userId in getUserInfo /login", req.session.userId);
                 res.json({ success: true });
             } else if (matchValue != true) {
                 res.json({ success: false });
@@ -104,7 +101,9 @@ app.post("/password/reset/start", (req, res) => {
                     let to = rows[0].email;
                     let subject = "Your code for the reset of your password";
                     let text =
-                        "Here you go. If you did not require it, please ignore the message.";
+                        "Here you go: " +
+                        restoreCode +
+                        " If you did not require it, please ignore the message.";
                     ses.sendEmail(to, subject, text)
                         .then(() => {
                             res.json({ success: true });
@@ -128,6 +127,39 @@ app.post("/password/reset/start", (req, res) => {
         .catch((err) => {
             console.log(
                 "Error in POST /password/reset/start in getUserInfo",
+                err
+            );
+            res.json({ error: true });
+        });
+});
+
+////// POST /password/reset/verify /////
+app.post("/password/reset/verify", (req, res) => {
+    let { email, code, newPassword } = req.body;
+    db.verifyUser(email)
+        .then(({ rows }) => {
+            if (code === rows[0].code) {
+                hash(newPassword)
+                    .then((hashedPw) => {
+                        db.updatePassword(email, hashedPw);
+                    })
+                    .then(() => {
+                        res.json({ success: true });
+                    })
+                    .catch((err) => {
+                        res.json({ success: false });
+                        console.log(
+                            "Error in POST /password/reset/start in updatePassword in index.js",
+                            err
+                        );
+                    });
+            } else {
+                res.json({ error: true });
+            }
+        })
+        .catch((err) => {
+            console.log(
+                "Error in POST /password/reset/start in verifyUser in index.js",
                 err
             );
             res.json({ error: true });

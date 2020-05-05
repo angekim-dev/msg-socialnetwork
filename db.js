@@ -16,23 +16,28 @@ module.exports.getUserInfo = (email) => {
 };
 
 module.exports.verifyUser = (email) => {
-    `SELECT * FROM reset_codes
-    WHERE (CURRENT_TIMESTAMP - timestamp < INTERVAL '10 minutes') AND (email = $1)
-    ORDER BY id DESC
-    LIMIT 1;`[email];
+    return db.query(
+        `SELECT * FROM reset_codes
+        WHERE (CURRENT_TIMESTAMP - created_at < INTERVAL '10 minutes') AND (email = $1)
+        ORDER BY id DESC
+        LIMIT 1;`,
+        [email]
+    );
 };
 
 module.exports.insertCode = (email, code) => {
     return db.query(
         `INSERT INTO reset_codes (email, code)
         VALUES ($1, $2)
-        RETURNING email`,
+        RETURNING email;`,
         [email, code]
     );
 };
 
-// INSERT
-
-// SELECT
-
-// UPDATE
+module.exports.updatePassword = (email, newPassword) => {
+    return db.query(
+        `UPDATE users SET password = $2
+        WHERE email = $1;`,
+        [email, newPassword]
+    );
+};

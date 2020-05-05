@@ -6,3 +6,9 @@
 .login {
     background-color: salmon;
 }
+.pic {
+    max-height: 200px;
+}
+.uploader-text {
+    color: chartreuse;
+}
