@@ -2,6 +2,7 @@ import React from "react";
 import Presentational from "./presentational";
 import Uploader from "./uploader";
 import axios from "./axios";
+// import Profile from "./profile";
 
 export default class App extends React.Component {
     constructor() {
@@ -48,6 +49,7 @@ export default class App extends React.Component {
         return (
             <div>
                 <h1>Hello from App</h1>
+                <a href="/logout">LOGOUT</a>
                 <Presentational
                     // becomes props object in Presentational with following key value pairs:
                     first={this.state.first}
@@ -55,6 +57,14 @@ export default class App extends React.Component {
                     imageUrl={this.state.imageUrl}
                     toggleModal={() => this.toggleModal()}
                 />
+
+                {/* <Profile
+                    first={this.state.first}
+                    last={this.state.last}
+                    imageUrl={this.state.imageUrl}
+                    toggleModal={() => this.toggleModal()}
+                    // bio={this.state.bio}
+                /> */}
 
                 {this.state.uploaderIsVisible && (
                     <Uploader

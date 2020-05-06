@@ -246,6 +246,14 @@ app.get("/welcome", (req, res) => {
     }
 });
 
+///// GET /logout /////
+app.get("/logout", (req, res) => {
+    console.log("**logout!");
+
+    req.session = null;
+    res.redirect("/");
+});
+
 ///// GET /user /////
 app.get("/user", (req, res) => {
     // console.log("GET /user");
