@@ -2,7 +2,8 @@ import React from "react";
 import Presentational from "./presentational";
 import Uploader from "./uploader";
 import axios from "./axios";
-// import Profile from "./profile";
+import Profile from "./profile";
+import Logo from "./logo";
 
 export default class App extends React.Component {
     constructor() {
@@ -22,6 +23,7 @@ export default class App extends React.Component {
                     first: data.first,
                     last: data.last,
                     imageUrl: data.image_url,
+                    bio: data.bio,
                 });
             })
             .catch((err) => {
@@ -45,11 +47,19 @@ export default class App extends React.Component {
         });
     }
 
+    saveBio(arg) {
+        console.log("saveBio running! and the argument is: ", arg);
+        this.setState({
+            bio: arg,
+        });
+    }
+
     render() {
         return (
-            <div>
+            <div className="app">
                 <h1>Hello from App</h1>
                 <a href="/logout">LOGOUT</a>
+                <Logo />
                 <Presentational
                     // becomes props object in Presentational with following key value pairs:
                     first={this.state.first}
@@ -58,13 +68,14 @@ export default class App extends React.Component {
                     toggleModal={() => this.toggleModal()}
                 />
 
-                {/* <Profile
+                <Profile
                     first={this.state.first}
                     last={this.state.last}
                     imageUrl={this.state.imageUrl}
                     toggleModal={() => this.toggleModal()}
-                    // bio={this.state.bio}
-                /> */}
+                    bio={this.state.bio}
+                    saveBio={(arg) => this.saveBio(arg)}
+                />
 
                 {this.state.uploaderIsVisible && (
                     <Uploader

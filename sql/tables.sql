@@ -15,5 +15,6 @@ CREATE TABLE users(
     email VARCHAR(255) NOT NULL UNIQUE,
     password VARCHAR(100) NOT NULL UNIQUE,
     image_url TEXT,
+    bio VARCHAR(300),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 ); 

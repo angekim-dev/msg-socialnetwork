@@ -1,13 +1,21 @@
 * {
 }
+.app {
+    background-color: cornflowerblue;
+}
 .reg {
     background-color: rosybrown;
 }
 .login {
     background-color: salmon;
 }
+.logo {
+    max-height: 100px;
+}
+.mini-profile-pic {
+    max-height: 100px;
+}
 .pic {
-    max-height: 200px;
 }
 .uploader-modal {
     position: fixed;

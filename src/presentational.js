@@ -1,5 +1,4 @@
 import React from "react";
-import Logo from "./logo";
 
 // for rendering profile pic
 // doesn't need to be a class
@@ -11,14 +10,10 @@ export default function Presentational({ first, last, imageUrl, toggleModal }) {
 
     return (
         <div>
-            <Logo />
-            <h1>
-                Welcome to your profile {first} {last}.
-            </h1>
             <img
+                className="mini-profile-pic"
                 src={imageUrl}
                 alt={first + " " + last}
-                className="pic"
                 onClick={toggleModal}
             />
         </div>
