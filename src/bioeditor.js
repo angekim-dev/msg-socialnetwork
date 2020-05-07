@@ -6,6 +6,7 @@ export default class BioEditor extends React.Component {
         super(props);
         this.state = {
             unsavedBio: null,
+            inProgress: false,
         };
     }
 
@@ -13,6 +14,15 @@ export default class BioEditor extends React.Component {
         console.log("e.target.value: ", e.target.value);
         this.setState({
             unsavedBio: e.target.value,
+        });
+    }
+
+    writeBio() {
+        this.setState({
+            inProgress: false,
+        });
+        axios.post("/bio", this.state).then(({ data }) => {
+            console.log("data in writeBio: ", data);
         });
     }
 

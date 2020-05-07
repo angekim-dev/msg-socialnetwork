@@ -5,6 +5,9 @@ import axios from "./axios";
 import Profile from "./profile";
 import Logo from "./logo";
 
+import { BrowserRouter, Route } from "react-router-dom";
+import OtherProfile from "./other-profile";
+
 export default class App extends React.Component {
     constructor() {
         super();
@@ -56,34 +59,55 @@ export default class App extends React.Component {
 
     render() {
         return (
-            <div className="app">
-                <h1>Hello from App</h1>
-                <a href="/logout">LOGOUT</a>
-                <Logo />
-                <Presentational
-                    // becomes props object in Presentational with following key value pairs:
-                    first={this.state.first}
-                    last={this.state.last}
-                    imageUrl={this.state.imageUrl}
-                    toggleModal={() => this.toggleModal()}
-                />
+            <BrowserRouter>
+                <div className="app">
+                    <div>
+                        <h1>Hello from App</h1>
+                        <a href="/logout">LOGOUT</a>
+                        <Logo />
+                        <Presentational
+                            // becomes props object in Presentational with following key value pairs:
+                            first={this.state.first}
+                            last={this.state.last}
+                            // id={this.state.id}
+                            imageUrl={this.state.imageUrl}
+                            toggleModal={() => this.toggleModal()}
+                        />
 
-                <Profile
-                    first={this.state.first}
-                    last={this.state.last}
-                    imageUrl={this.state.imageUrl}
-                    toggleModal={() => this.toggleModal()}
-                    bio={this.state.bio}
-                    saveBio={(arg) => this.saveBio(arg)}
-                />
+                        <Route
+                            exact
+                            path="/"
+                            render={() => (
+                                <Profile
+                                    first={this.state.first}
+                                    last={this.state.last}
+                                    // id={this.state.id}
+                                    imageUrl={this.state.imageUrl}
+                                    toggleModal={() => this.toggleModal()}
+                                    bio={this.state.bio}
+                                    saveBio={(arg) => this.saveBio(arg)}
+                                />
+                            )}
+                        />
 
-                {this.state.uploaderIsVisible && (
-                    <Uploader
-                        methodInApp={(arg) => this.methodInApp(arg)}
-                        toggleModal={() => this.toggleModal()}
-                    />
-                )}
-            </div>
+                        <Route
+                            exact
+                            path="/user/:id"
+                            component={OtherProfile}
+                        />
+
+                        {/* <Route exact path="/chat" component={Chat} />
+                        <Route exact path="/online" component={OnlineUsers} /> */}
+
+                        {this.state.uploaderIsVisible && (
+                            <Uploader
+                                methodInApp={(arg) => this.methodInApp(arg)}
+                                toggleModal={() => this.toggleModal()}
+                            />
+                        )}
+                    </div>
+                </div>
+            </BrowserRouter>
         );
     }
 }

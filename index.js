@@ -237,6 +237,19 @@ app.post("/upload", uploader.single("file"), s3.upload, (req, res) => {
     }
 });
 
+app.post("/bio", (req, res) => {
+    return db
+        .updateBio(req.session.userId, req.body.unsavedBio)
+        .then(({ rows }) => {
+            console.log("**rows[0]", rows[0]);
+            res.json(rows[0]);
+        })
+        .catch((err) => {
+            console.log("Error in db.updateBio: ", err);
+            res.json({ success: false });
+        });
+});
+
 ////// GET /welcome /////
 app.get("/welcome", (req, res) => {
     if (req.session.userId) {
@@ -267,6 +280,11 @@ app.get("/user", (req, res) => {
         .catch((err) => {
             console.log("Error in getUser in index.js: ", err);
         });
+});
+
+///// GET /api/user/:id
+app.get("/api/user/:id", (req, res) => {
+    res.json({ first: "Angelika", last: "Kim" });
 });
 
 ////// GET /* /////

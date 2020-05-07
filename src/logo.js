@@ -5,7 +5,7 @@ export default class Logo extends React.Component {
         return (
             <div>
                 {/* <p>This is the logo component</p> */}
-                <img src="./WIR.jpeg" className="logo" />
+                <img src="/WIR.jpeg" className="logo" />
             </div>
         );
     }
