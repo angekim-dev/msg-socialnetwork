@@ -21,21 +21,57 @@ export default class BioEditor extends React.Component {
         this.setState({
             inProgress: false,
         });
-        axios.post("/bio", this.state).then(({ data }) => {
-            console.log("data in writeBio: ", data);
-        });
+        axios
+            .post("/bio", this.state)
+            .then(({ data }) => {
+                console.log("This is the data: ", data.bio);
+                this.props.saveBio(data.bio);
+            })
+            .catch((err) => {
+                console.log("Error in /bio in bioeditor.js: ", err);
+            });
     }
 
     render() {
         return (
             <div>
                 <p>BIOEDITOR</p>
-                <textarea
-                    defaultValue={this.props.bio}
-                    onChange={(e) => this.handleChange(e)}
-                ></textarea>
-                <button>Add Bio</button>
-                <button>Edit Bio</button>
+                {this.state.inProgress && (
+                    <div>
+                        <textarea
+                            defaultValue={this.props.bio}
+                            onChange={(e) => this.handleChange(e)}
+                        ></textarea>
+                        <button onClick={(e) => this.writeBio(e)}>
+                            Save Bio
+                        </button>
+                    </div>
+                )}
+                {!this.props.bio && (
+                    <button
+                        onClick={() =>
+                            this.setState({
+                                inProgress: true,
+                            })
+                        }
+                    >
+                        Add Bio
+                    </button>
+                )}
+                {this.props.bio && (
+                    <div>
+                        <div>{this.props.bio}</div>
+                        <button
+                            onClick={() =>
+                                this.setState({
+                                    inProgress: true,
+                                })
+                            }
+                        >
+                            Edit Bio
+                        </button>
+                    </div>
+                )}
             </div>
         );
     }

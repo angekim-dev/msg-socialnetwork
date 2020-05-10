@@ -66,7 +66,6 @@ export default class App extends React.Component {
                         <a href="/logout">LOGOUT</a>
                         <Logo />
                         <Presentational
-                            // becomes props object in Presentational with following key value pairs:
                             first={this.state.first}
                             last={this.state.last}
                             // id={this.state.id}
