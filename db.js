@@ -19,6 +19,18 @@ module.exports.getUser = (id) => {
     return db.query(`SELECT * FROM users WHERE id = $1;`, [id]);
 };
 
+module.exports.getRecentUsers = () => {
+    return db.query(`SELECT * FROM users ORDER BY id DESC LIMIT 3;`);
+};
+
+module.exports.getSearchedUsers = (val) => {
+    return db.query(
+        `SELECT * FROM users
+        WHERE first ILIKE $1;`,
+        [val + "%"]
+    );
+};
+
 module.exports.verifyUser = (email) => {
     return db.query(
         `SELECT * FROM reset_codes

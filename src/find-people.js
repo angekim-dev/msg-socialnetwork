@@ -1,17 +1,18 @@
 import React, { useState, useEffect } from "react";
 import axios from "./axios";
-import ProfilePic from "./profilepic";
+
+import { Link } from "react-router-dom";
 
 export default function FindPeople() {
     const [user, setUser] = useState("");
     const [users, setUsers] = useState([]);
 
-    // const [country, setCountry] = useState("");
-    // const [countries, setCountries] = useState([]);
-
     useEffect(() => {
-        console.log(`'${user}' has been rendered in useEffect!`);
-    }); // acts as ComponentDidMount
+        axios.get(`/recent-users`).then(({ data }) => {
+            console.log("data in first axios in find-people-js ", data);
+            setUsers(data);
+        });
+    }, []); // acts as ComponentDidMount
 
     useEffect(() => {
         let abort;
@@ -19,7 +20,7 @@ export default function FindPeople() {
             const { data } = await axios.get(`/api/users/${user}`);
             console.log("***data: ", data);
             if (!abort) {
-                setUser(data.user);
+                setUser(data.id);
             }
         })();
 
@@ -35,22 +36,21 @@ export default function FindPeople() {
 
     return (
         <div>
-            <p>Hello {user}! We are learning hooks!</p>
+            <p>Find People! We are learning hooks!</p>
+
             <input onChange={onChange} />
-            <ul>
+            <div>
                 {users.map((each) => (
-                    <li key={each.id}>
-                        <ProfilePic
-                            first={user.first}
-                            last={user.last}
-                            imageUrl={user.image_url}
-                        />
-                        <div>
-                            {user.first} {user.last}
-                        </div>
-                    </li>
+                    <div key={each.id}>
+                        <Link to={`/user/${each.id}`}>
+                            <img src={each.image_url || "/default.png"} />
+                        </Link>
+                        <p>
+                            {each.first} {each.last}
+                        </p>
+                    </div>
                 ))}
-            </ul>
+            </div>
         </div>
     );
 }

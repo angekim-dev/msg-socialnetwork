@@ -306,9 +306,30 @@ app.get("/api/user/:id", (req, res) => {
     }
 });
 
-///// GET /api/users/:user
+///// GET /recent-users
+app.get("/recent-users", function (req, res) {
+    return db
+        .getRecentUsers()
+        .then(({ rows }) => {
+            console.log("This is the result in getRecentUsers: ", rows);
+            res.json(rows);
+        })
+        .catch((err) => {
+            console.log("Error in getRecentUsers in index.js ", err);
+        });
+});
+
+///// GET /api/users/:id
 app.get("/api/users/:user", function (req, res) {
-    console.log("***user in index.js", req.params.user);
+    return db
+        .getSearchedUsers(req.params.user)
+        .then(({ rows }) => {
+            console.log("This is the result in getSearchedUsers: ", rows);
+            res.json(rows);
+        })
+        .catch((err) => {
+            console.log("Error in getSearchedUsers in index.js ", err);
+        });
 });
 
 ////// GET /* /////

@@ -109,13 +109,7 @@ export default class App extends React.Component {
                             <Route
                                 exact
                                 path="/users"
-                                render={() => (
-                                    <FindPeople
-                                        first={this.state.first}
-                                        last={this.state.last}
-                                        imageUrl={this.state.imageUrl}
-                                    />
-                                )}
+                                render={() => <FindPeople />}
                             />
 
                             {/* <Route exact path="/chat" component={Chat} />
