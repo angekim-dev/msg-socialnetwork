@@ -30,10 +30,6 @@ export default class Uploader extends React.Component {
             });
     }
 
-    // closeModal() {
-    //     console.log("closing now");
-    // }
-
     render() {
         return (
             <div className="uploader-modal">

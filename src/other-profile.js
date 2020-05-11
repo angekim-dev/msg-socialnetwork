@@ -1,27 +1,54 @@
 import React, { Component } from "react";
 import axios from "./axios";
+import ProfilePic from "./profilepic";
 
 class OtherProfile extends Component {
     constructor(props) {
         super(props);
-        this.state = {};
+        this.state = {
+            currentUser: false,
+        };
     }
 
     componentDidMount() {
-        console.log(this.props.match.params.id);
-        const otheUserId = this.props.match.params.id;
+        // console.log(this.props.match.params.id);
+        const otherUserId = this.props.match.params.id;
         // make axios request to dynamic route on server asking for info about this user
-        // req.params, stick to db query, then state, setState and see it on the other page
-        // no need for bio editor component, just read bio
-        //handle if user tries to got to own profile (check if userId=currentId, then redirect to profile)
-        //handle if user tries to got to profile which does not exist i.e. /user/246243
-        // axios.get("api/user/" + id);
+        axios
+            .get("/api/user/" + otherUserId)
+            .then(({ data }) => {
+                console.log("***data: ", data);
+                if (data.currentUser || data.noMatch) {
+                    console.log("not current or known user");
+                    this.props.history.push("/");
+                } else {
+                    this.setState({
+                        first: data.first,
+                        last: data.last,
+                        imageUrl: data.image_url,
+                        bio: data.bio,
+                    });
+                }
+            })
+            .catch((err) => {
+                console.log("Error in axios.get '/api/user/' + id: ", err);
+            });
+        console.log("after axios in api/user", this.state);
     }
 
     render() {
         return (
             <div>
                 <h1>I am Other Profile!</h1>
+                <ProfilePic
+                    first={this.state.first}
+                    last={this.state.last}
+                    imageUrl={this.state.imageUrl}
+                />
+                <h2>
+                    {this.state.first} {this.state.last}
+                </h2>
+                <p>{this.state.bio}</p>
             </div>
         );
     }

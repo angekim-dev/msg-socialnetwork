@@ -237,6 +237,7 @@ app.post("/upload", uploader.single("file"), s3.upload, (req, res) => {
     }
 });
 
+///// POST /bio /////
 app.post("/bio", (req, res) => {
     return db
         .updateBio(req.session.userId, req.body.unsavedBio)
@@ -269,12 +270,10 @@ app.get("/logout", (req, res) => {
 
 ///// GET /user /////
 app.get("/user", (req, res) => {
-    // console.log("GET /user");
-    // console.log("req.session.userId in index.js", req.session.userId);
     return db
         .getUser(req.session.userId)
         .then(({ rows }) => {
-            // console.log("rows[0] in get user in index.js", rows[0]);
+            console.log("rows[0] in get user in index.js", rows[0]);
             res.json(rows[0]);
         })
         .catch((err) => {
@@ -284,7 +283,27 @@ app.get("/user", (req, res) => {
 
 ///// GET /api/user/:id
 app.get("/api/user/:id", (req, res) => {
-    res.json({ first: "Angelika", last: "Kim" });
+    console.log("***otherUserId", req.params.id);
+    //handle if user tries to got to own profile (check if userId=currentId, then redirect to profile)
+    //handle if user tries to got to profile which does not exist i.e. /user/246243
+    if (req.params.id == req.session.userId) {
+        res.json({ currentUser: true });
+    } else {
+        return db
+            .getUser(req.params.id)
+            .then(({ rows }) => {
+                if (rows[0] == undefined) {
+                    res.json({ noMatch: true });
+                }
+                res.json(rows[0]);
+            })
+            .catch((err) => {
+                console.log(
+                    "Error in getUser in index.js /api/user/:id: ",
+                    err
+                );
+            });
+    }
 });
 
 ////// GET /* /////

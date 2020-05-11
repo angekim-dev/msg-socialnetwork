@@ -1,5 +1,5 @@
 import React from "react";
-import Presentational from "./presentational";
+import ProfilePic from "./profilepic";
 import BioEditor from "./bioeditor";
 
 export default function Profile({
@@ -15,7 +15,7 @@ export default function Profile({
             <h1>
                 Welcome to your profile {first} {last}.
             </h1>
-            <Presentational
+            <ProfilePic
                 first={first}
                 last={last}
                 imageUrl={imageUrl}
