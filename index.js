@@ -306,6 +306,11 @@ app.get("/api/user/:id", (req, res) => {
     }
 });
 
+///// GET /api/users/:user
+app.get("/api/users/:user", function (req, res) {
+    console.log("***user in index.js", req.params.user);
+});
+
 ////// GET /* /////
 app.get("*", function (req, res) {
     if (!req.session.userId) {

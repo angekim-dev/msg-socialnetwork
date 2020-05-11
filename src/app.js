@@ -7,6 +7,7 @@ import Logo from "./logo";
 
 import { BrowserRouter, Route } from "react-router-dom";
 import OtherProfile from "./other-profile";
+import FindPeople from "./find-people";
 
 export default class App extends React.Component {
     constructor() {
@@ -101,6 +102,18 @@ export default class App extends React.Component {
                                         key={props.match.url}
                                         match={props.match}
                                         history={props.history}
+                                    />
+                                )}
+                            />
+
+                            <Route
+                                exact
+                                path="/users"
+                                render={() => (
+                                    <FindPeople
+                                        first={this.state.first}
+                                        last={this.state.last}
+                                        imageUrl={this.state.imageUrl}
                                     />
                                 )}
                             />

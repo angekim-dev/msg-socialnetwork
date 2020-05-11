@@ -24,7 +24,7 @@ export default function Hello() {
 
         return () => {
             console.log(`about to replace ${country} with a new value`);
-        };
+        }; // "clean up function" -> runs before every rerender
     }, [country]); // acts as ComponentDidUpdate
 
     // long version:
