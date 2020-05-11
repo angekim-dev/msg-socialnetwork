@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import axios from "./axios";
-
 import { Link } from "react-router-dom";
 
 export default function FindPeople() {
@@ -8,19 +7,25 @@ export default function FindPeople() {
     const [users, setUsers] = useState([]);
 
     useEffect(() => {
-        axios.get(`/recent-users`).then(({ data }) => {
-            console.log("data in first axios in find-people-js ", data);
-            setUsers(data);
-        });
+        axios
+            .get("/recent-users")
+            .then(({ data }) => {
+                console.log("data in first axios in find-people-js ", data);
+                setUsers(data);
+            })
+            .catch((err) => {
+                console.log("Error in first axios in find-people-js: ", err);
+            });
     }, []); // acts as ComponentDidMount
 
     useEffect(() => {
         let abort;
         (async () => {
-            const { data } = await axios.get(`/api/users/${user}`);
+            const { data } = await axios.get("/api/users/" + user);
             console.log("***data: ", data);
             if (!abort) {
                 setUser(data.id);
+                // setUsers(data);
             }
         })();
 
@@ -36,14 +41,16 @@ export default function FindPeople() {
 
     return (
         <div>
-            <p>Find People! We are learning hooks!</p>
-
-            <input onChange={onChange} />
+            <h1>Find People</h1>
+            <p>Checkout who joined!</p>
             <div>
                 {users.map((each) => (
                     <div key={each.id}>
                         <Link to={`/user/${each.id}`}>
-                            <img src={each.image_url || "/default.png"} />
+                            <img
+                                className="mini-profile-pic"
+                                src={each.image_url || "/default.png"}
+                            />
                         </Link>
                         <p>
                             {each.first} {each.last}
@@ -51,6 +58,8 @@ export default function FindPeople() {
                     </div>
                 ))}
             </div>
+            <p>Are you looking for someone in particular?</p>
+            <input onChange={onChange} placeholder="Enter name" />
         </div>
     );
 }

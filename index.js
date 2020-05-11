@@ -307,11 +307,11 @@ app.get("/api/user/:id", (req, res) => {
 });
 
 ///// GET /recent-users
-app.get("/recent-users", function (req, res) {
+app.get("/recent-users", (req, res) => {
     return db
         .getRecentUsers()
         .then(({ rows }) => {
-            console.log("This is the result in getRecentUsers: ", rows);
+            // console.log("This is the result in getRecentUsers: ", rows);
             res.json(rows);
         })
         .catch((err) => {
@@ -319,8 +319,9 @@ app.get("/recent-users", function (req, res) {
         });
 });
 
-///// GET /api/users/:id
-app.get("/api/users/:user", function (req, res) {
+///// GET /api/users/:user
+app.get("/api/users/:user", (req, res) => {
+    console.log("*****", req.params.user);
     return db
         .getSearchedUsers(req.params.user)
         .then(({ rows }) => {
@@ -333,7 +334,7 @@ app.get("/api/users/:user", function (req, res) {
 });
 
 ////// GET /* /////
-app.get("*", function (req, res) {
+app.get("*", (req, res) => {
     if (!req.session.userId) {
         res.redirect("/welcome");
     } else {
