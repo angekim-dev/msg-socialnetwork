@@ -4,6 +4,8 @@ import Welcome from "./welcome";
 // import Logo from "./logo";
 import App from "./app";
 
+// import { useStatefulFields, useAuthSubmit } from "./hooks";
+
 let elem;
 const userIsLoggedIn = location.pathname != "/welcome";
 
