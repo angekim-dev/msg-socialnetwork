@@ -20,12 +20,16 @@ export default function FindPeople() {
 
     useEffect(() => {
         let abort;
+        if (!user) {
+            setUsers([]);
+            return;
+        }
         (async () => {
             const { data } = await axios.get("/api/users/" + user);
             console.log("***data: ", data);
             if (!abort) {
-                setUser(data.id);
-                // setUsers(data);
+                // setUser(data.id);
+                setUsers(data);
             }
         })();
 
