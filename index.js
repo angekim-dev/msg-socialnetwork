@@ -337,15 +337,23 @@ app.get("/api/friendshipstatus/:id", (req, res) => {
     console.log("***id of other user", req.params.id);
     console.log("***id of current user", req.session.userId);
 
-    const id = req.params.id;
-    return db.getFriendshipStatus((id, req.session.userId)).then(({ rows }) => {
-        console.log("***friendship existent or not", rows);
-        if (!rows.length) {
+    const idOfViewed = req.params.id;
+    const idOfViewer = req.session.userId;
+    console.log("***", idOfViewed, idOfViewer);
+    return db.getFriendshipStatus(idOfViewed, idOfViewer).then((result) => {
+        console.log("***friendship existent or not", result);
+        if (!result.rows.length) {
             res.json({ action: "Be Mine" });
-        } else if (rows[0].accepted === false && rows[0].sender_id != id) {
-            console.log(rows.accepted);
+        } else if (
+            result.rows[0].accepted === false &&
+            result.rows[0].viewer != idOfViewed
+        ) {
+            // console.log(data.rows.accepted);
             res.json({ action: "Accept" });
-        } else if (rows[0].accepted === false && rows[0].receiver_id != id) {
+        } else if (
+            result.rows[0].accepted === false &&
+            result.rows[0].viewed != idOfViewer
+        ) {
             res.json({ action: "Cancel request" });
         } else {
             res.json({ action: "End friendship" });
@@ -361,8 +369,8 @@ app.post("/api/friendshipstatus/:id", (req, res) => {
     if (currentAction == "Be Mine") {
         return db
             .addFriendship(id, req.session.userId)
-            .then(({ rows }) => {
-                console.log("**rows in addfriendship POST", rows);
+            .then((result) => {
+                console.log("**rows in addfriendship POST", result.rows);
                 res.json({ action: "Cancel request" });
             })
             .catch((err) => {
