@@ -18,9 +18,9 @@ class OtherProfile extends Component {
         axios
             .get("/api/user/" + otherUserId)
             .then(({ data }) => {
-                console.log("***data: ", data);
+                // console.log("***data: ", data);
                 if (data.currentUser || data.noMatch) {
-                    console.log("not current or known user");
+                    // console.log("not current or known user");
                     this.props.history.push("/");
                 } else {
                     this.setState({
@@ -34,7 +34,7 @@ class OtherProfile extends Component {
             .catch((err) => {
                 console.log("Error in axios.get '/api/user/' + id: ", err);
             });
-        console.log("after axios in api/user", this.state);
+        // console.log("after axios in api/user", this.state);
     }
 
     render() {

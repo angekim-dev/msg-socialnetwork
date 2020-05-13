@@ -1,7 +1,7 @@
 import React from "react";
 
 export default function ProfilePic({ first, last, imageUrl, toggleModal }) {
-    imageUrl = imageUrl || "./default.png";
+    imageUrl = imageUrl || "/default.png";
 
     return (
         <div>

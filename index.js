@@ -273,7 +273,7 @@ app.get("/user", (req, res) => {
     return db
         .getUser(req.session.userId)
         .then(({ rows }) => {
-            console.log("rows[0] in get user in index.js", rows[0]);
+            // console.log("rows[0] in get user in index.js", rows[0]);
             res.json(rows[0]);
         })
         .catch((err) => {
@@ -281,11 +281,10 @@ app.get("/user", (req, res) => {
         });
 });
 
-///// GET /api/user/:id
+///// GET /api/user/:id /////
 app.get("/api/user/:id", (req, res) => {
-    console.log("***otherUserId", req.params.id);
-    //handle if user tries to got to own profile (check if userId=currentId, then redirect to profile)
-    //handle if user tries to got to profile which does not exist i.e. /user/246243
+    // console.log("***otherUserId", req.params.id);
+
     if (req.params.id == req.session.userId) {
         res.json({ currentUser: true });
     } else {
@@ -306,7 +305,7 @@ app.get("/api/user/:id", (req, res) => {
     }
 });
 
-///// GET /recent-users
+///// GET /recent-users /////
 app.get("/recent-users", (req, res) => {
     return db
         .getRecentUsers()
@@ -319,9 +318,9 @@ app.get("/recent-users", (req, res) => {
         });
 });
 
-///// GET /api/users/:user
+///// GET /api/users/:user /////
 app.get("/api/users/:user", (req, res) => {
-    console.log("*****", req.params.user);
+    // console.log("*****", req.params.user);
     return db
         .getSearchedUsers(req.params.user)
         .then(({ rows }) => {
@@ -331,6 +330,68 @@ app.get("/api/users/:user", (req, res) => {
         .catch((err) => {
             console.log("Error in getSearchedUsers in index.js ", err);
         });
+});
+
+///// GET /api/friendshipstatus/:id /////
+app.get("/api/friendshipstatus/:id", (req, res) => {
+    console.log("***id of other user", req.params.id);
+    console.log("***id of current user", req.session.userId);
+
+    const id = req.params.id;
+    return db.getFriendshipStatus((id, req.session.userId)).then(({ rows }) => {
+        console.log("***friendship existent or not", rows);
+        if (!rows.length) {
+            res.json({ action: "Be Mine" });
+        } else if (rows[0].accepted === false && rows[0].sender_id != id) {
+            console.log(rows.accepted);
+            res.json({ action: "Accept" });
+        } else if (rows[0].accepted === false && rows[0].receiver_id != id) {
+            res.json({ action: "Cancel request" });
+        } else {
+            res.json({ action: "End friendship" });
+        }
+    });
+});
+
+///// POST /api/friendshipstatus/:id /////
+app.post("/api/friendshipstatus/:id", (req, res) => {
+    console.log("*******req.body", req.body.action);
+    const currentAction = req.body.action;
+    const id = req.params.id;
+    if (currentAction == "Be Mine") {
+        return db
+            .addFriendship(id, req.session.userId)
+            .then(({ rows }) => {
+                console.log("**rows in addfriendship POST", rows);
+                res.json({ action: "Cancel request" });
+            })
+            .catch((err) => {
+                console.log("Error in POST db.addFriendship: ", err);
+            });
+    } else if (
+        currentAction == "Cancel request" ||
+        currentAction == "End friendship"
+    ) {
+        return db
+            .deleteFriendship(id, req.session.userId)
+            .then(() => {
+                console.log("nevermind");
+                res.json({ action: "Be Mine" });
+            })
+            .catch((err) => {
+                console.log("Error in POST db.deleteFriendship: ", err);
+            });
+    } else if (currentAction == "Accept") {
+        return db
+            .acceptFriendship(id, req.session.userId)
+            .then(() => {
+                console.log("there will be friends!!");
+                res.json({ action: "End friendship" });
+            })
+            .catch((err) => {
+                console.log("Error in POST db.acceptFriendship: ", err);
+            });
+    }
 });
 
 ////// GET /* /////

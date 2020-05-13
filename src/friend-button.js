@@ -3,28 +3,35 @@ import axios from "./axios";
 
 export default function FriendshipButton({ otherId }) {
     console.log("otherId: ", otherId);
-    const [buttonText, setButtonText] = useState("Make friend request");
+    const [buttonText, setButtonText] = useState("To friend or not to friend");
 
     useEffect(() => {
         console.log("I am Friendbutton component mounting..");
-        // axios.get(`/friendshipstatus/${otherId}`).then((resp) => {
-        //     console.log("resp: ", resp);
-        //     setButtonText(resp.data.buttonText);
-        // });
+        axios
+            .get(`/api/friendshipstatus/${otherId}`)
+            .then(({ data }) => {
+                console.log("resp: ", data);
+                setButtonText(data.action);
+            })
+            .catch((err) => {
+                console.log("Error in axios friendshipstatus: ", err);
+            });
     }, []);
 
     function submit() {
-        // option1 axios request here 1 of 4 OR 3
-        // if / else
-        // if make friend request -> insert into table
-        // friendship status false
-        // if cancel, delete row from table where user1=user1 SAME WITH ENDING friendship
-        // if accept -> status of friendship changed from false to true
-        // OR decisions on SERVER side (one route with lots of logic, or mini-routes with little logic)
         console.log(
             "I clicked on the button and the button text is",
             buttonText
         );
+        axios
+            .post(`/api/friendshipstatus/${otherId}`, { action: buttonText })
+            .then(({ data }) => {
+                console.log("LINE 36", data);
+                setButtonText(data.action);
+            })
+            .catch((err) => {
+                console.log("Error in axios POST friendship: ", err);
+            });
     }
 
     return (
