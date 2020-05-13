@@ -339,20 +339,21 @@ app.get("/api/friendshipstatus/:id", (req, res) => {
 
     const idOfViewed = req.params.id;
     const idOfViewer = req.session.userId;
-    console.log("***", idOfViewed, idOfViewer);
+    console.log("***idOfViewed", idOfViewed);
+    console.log("***idOfViewer", idOfViewer);
     return db.getFriendshipStatus(idOfViewed, idOfViewer).then((result) => {
-        console.log("***friendship existent or not", result);
+        console.log("***friendship existent or not", result.rows);
         if (!result.rows.length) {
             res.json({ action: "Be Mine" });
         } else if (
             result.rows[0].accepted === false &&
-            result.rows[0].viewer != idOfViewed
+            result.rows[0].sender_id == idOfViewed
         ) {
             // console.log(data.rows.accepted);
             res.json({ action: "Accept" });
         } else if (
             result.rows[0].accepted === false &&
-            result.rows[0].viewed != idOfViewer
+            result.rows[0].receiver_id == idOfViewed
         ) {
             res.json({ action: "Cancel request" });
         } else {
