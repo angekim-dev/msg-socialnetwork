@@ -400,6 +400,18 @@ app.post("/api/friendshipstatus/:id", (req, res) => {
     }
 });
 
+///// GET /friends /////
+app.get("/friends", (req, res) => {
+    return db
+        .getFriendsWannabes(req.session.userId)
+        .then((result) => {
+            res.json(result.rows);
+        })
+        .catch((err) => {
+            console.log("Error in GET db.getFriendsWannabes: ", err);
+        });
+});
+
 ////// GET /* /////
 app.get("*", (req, res) => {
     if (!req.session.userId) {
