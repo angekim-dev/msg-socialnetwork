@@ -4,14 +4,28 @@ import Welcome from "./welcome";
 // import Logo from "./logo";
 import App from "./app";
 
+import { createStore, applyMiddleware } from "redux";
+import { Provider } from "react-redux";
+import reduxPromise from "redux-promise";
+import { composeWithDevTools } from "redux-devtools-extension";
+import reducer from "./reducer";
+
 // import { useStatefulFields, useAuthSubmit } from "./hooks";
+
+const store = createStore(
+    reducer,
+    composeWithDevTools(applyMiddleware(reduxPromise))
+);
 
 let elem;
 const userIsLoggedIn = location.pathname != "/welcome";
 
 if (userIsLoggedIn) {
-    // elem = <Logo />;
-    elem = <App />;
+    elem = (
+        <Provider store={store}>
+            <App />
+        </Provider>
+    );
 } else {
     elem = <Welcome />;
 }

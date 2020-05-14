@@ -81,7 +81,6 @@ module.exports.updateBio = (id, bio) => {
 /////FRIENDSHIP/////
 
 module.exports.getFriendshipStatus = (viewed, viewer) => {
-    console.log("db request getFriendshipStatus", viewed, viewer);
     return db.query(
         `SELECT * FROM friendships
         WHERE (receiver_id = $1 AND sender_id = $2)

@@ -334,22 +334,20 @@ app.get("/api/users/:user", (req, res) => {
 
 ///// GET /api/friendshipstatus/:id /////
 app.get("/api/friendshipstatus/:id", (req, res) => {
-    console.log("***id of other user", req.params.id);
-    console.log("***id of current user", req.session.userId);
+    // console.log("***id of other user", req.params.id);
+    // console.log("***id of current user", req.session.userId);
 
     const idOfViewed = req.params.id;
     const idOfViewer = req.session.userId;
-    console.log("***idOfViewed", idOfViewed);
-    console.log("***idOfViewer", idOfViewer);
+
     return db.getFriendshipStatus(idOfViewed, idOfViewer).then((result) => {
-        console.log("***friendship existent or not", result.rows);
+        // console.log("***friendship existent or not", result.rows);
         if (!result.rows.length) {
             res.json({ action: "Be Mine" });
         } else if (
             result.rows[0].accepted === false &&
             result.rows[0].sender_id == idOfViewed
         ) {
-            // console.log(data.rows.accepted);
             res.json({ action: "Accept" });
         } else if (
             result.rows[0].accepted === false &&
@@ -364,7 +362,6 @@ app.get("/api/friendshipstatus/:id", (req, res) => {
 
 ///// POST /api/friendshipstatus/:id /////
 app.post("/api/friendshipstatus/:id", (req, res) => {
-    console.log("*******req.body", req.body.action);
     const currentAction = req.body.action;
     const id = req.params.id;
     if (currentAction == "Be Mine") {
