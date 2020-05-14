@@ -1,4 +1,6 @@
 import React from "react";
+import Logo from "./logo";
+import Nav from "./nav";
 import ProfilePic from "./profilepic";
 
 // for rendering profile pic
@@ -9,6 +11,8 @@ export default function Presentational({ first, last, imageUrl, toggleModal }) {
 
     return (
         <div>
+            <Logo />
+            <Nav />
             <ProfilePic
                 first={first}
                 last={last}

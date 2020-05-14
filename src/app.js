@@ -3,7 +3,6 @@ import Presentational from "./presentational";
 import Uploader from "./uploader";
 import axios from "./axios";
 import Profile from "./profile";
-import Logo from "./logo";
 
 import { BrowserRouter, Route } from "react-router-dom";
 import OtherProfile from "./other-profile";
@@ -68,8 +67,8 @@ export default class App extends React.Component {
                     <div className="app">
                         <div>
                             <h1>Hello from App</h1>
-                            <a href="/logout">LOGOUT</a>
-                            <Logo />
+                            {/* <a href="/logout">LOGOUT</a> */}
+
                             <Presentational
                                 first={this.state.first}
                                 last={this.state.last}
