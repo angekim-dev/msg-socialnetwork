@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 
 export default function Friends() {
     const dispatch = useDispatch();
-    console.log("***", dispatch);
+    // console.log("***", dispatch);
 
     useEffect(() => {
         dispatch(getFriendsWannabes());
@@ -54,7 +54,7 @@ export default function Friends() {
                         <button
                             onClick={() => dispatch(acceptFriendship(user.id))}
                         >
-                            Accept THEM
+                            Accept
                         </button>
                     </div>
                 ))}

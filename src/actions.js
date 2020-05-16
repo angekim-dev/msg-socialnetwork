@@ -8,11 +8,20 @@ export async function getFriendsWannabes() {
     };
 }
 
+// export function getFriendsWannabes() {
+//     axios.get("/friends").then((result) => {
+//         console.log("***RESULT", result);
+//         return {
+//             type: "RECEIVE_FRIENDS_WANNABES",
+//             friendsWannabes: result,
+//         };
+//     });
+// }
+
 export async function acceptFriendship(id) {
-    const { data } = await axios.post(`/friendshipstatus/${id}`, {
-        text: "Accept",
+    await axios.post(`api/friendshipstatus/${id}`, {
+        action: "Accept",
     });
-    console.log("***data in acceptFriendship", data);
     return {
         type: "ACCEPT_FRIEND_REQUEST",
         id,
@@ -20,10 +29,9 @@ export async function acceptFriendship(id) {
 }
 
 export async function endFriendship(id) {
-    const { data } = await axios.post(`/friendshipstatus/${id}`, {
-        text: "End Friendship",
+    await axios.post(`api/friendshipstatus/${id}`, {
+        action: "End friendship",
     });
-    console.log("***data in endFriendship", data);
     return {
         type: "UNFRIEND",
         id,
