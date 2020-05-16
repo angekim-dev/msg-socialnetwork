@@ -324,7 +324,7 @@ app.get("/api/users/:user", (req, res) => {
     return db
         .getSearchedUsers(req.params.user)
         .then(({ rows }) => {
-            console.log("This is the result in getSearchedUsers: ", rows);
+            // console.log("This is the result in getSearchedUsers: ", rows);
             res.json(rows);
         })
         .catch((err) => {
@@ -401,15 +401,14 @@ app.post("/api/friendshipstatus/:id", (req, res) => {
 });
 
 ///// GET /friends /////
-app.get("/friends", (req, res) => {
-    return db
-        .getFriendsWannabes(req.session.userId)
-        .then((result) => {
-            res.json(result.rows);
-        })
-        .catch((err) => {
-            console.log("Error in GET db.getFriendsWannabes: ", err);
-        });
+app.get("/friends", async (req, res) => {
+    try {
+        const { rows } = await db.getFriendsWannabes(req.session.userId);
+        console.log("rows in GET /friends in index.js", rows);
+        res.json(rows);
+    } catch (err) {
+        console.log("Error in GET db.getFriendsWannabes: ", err);
+    }
 });
 
 ////// GET /* /////
