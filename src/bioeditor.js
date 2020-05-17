@@ -41,13 +41,18 @@ export default class BioEditor extends React.Component {
                             defaultValue={this.props.bio}
                             onChange={(e) => this.handleChange(e)}
                         ></textarea>
-                        <button onClick={(e) => this.writeBio(e)}>
+                        <button
+                            className="save"
+                            id="save"
+                            onClick={(e) => this.writeBio(e)}
+                        >
                             Save Bio
                         </button>
                     </div>
                 )}
                 {!this.props.bio && (
                     <button
+                        id="add"
                         onClick={() =>
                             this.setState({
                                 inProgress: true,
@@ -61,6 +66,7 @@ export default class BioEditor extends React.Component {
                     <div>
                         <div>{this.props.bio}</div>
                         <button
+                            id="edit"
                             onClick={() =>
                                 this.setState({
                                     inProgress: true,

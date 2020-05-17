@@ -19,8 +19,11 @@ module.exports.getUser = (id) => {
     return db.query(`SELECT * FROM users WHERE id = $1;`, [id]);
 };
 
-module.exports.getRecentUsers = () => {
-    return db.query(`SELECT * FROM users ORDER BY id DESC LIMIT 3;`);
+module.exports.getRecentUsers = (id) => {
+    return db.query(
+        `SELECT * FROM users WHERE id != $1 ORDER BY id DESC LIMIT 3;`,
+        [id]
+    );
 };
 
 module.exports.getSearchedUsers = (val) => {
