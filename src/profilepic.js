@@ -4,7 +4,7 @@ export default function ProfilePic({ first, last, imageUrl, toggleModal }) {
     imageUrl = imageUrl || "/default.png";
 
     return (
-        <div>
+        <div className="mini-profile-pic-container">
             <img
                 className="mini-profile-pic"
                 src={imageUrl}

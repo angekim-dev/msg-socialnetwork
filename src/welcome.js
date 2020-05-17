@@ -7,10 +7,10 @@ import ResetPassword from "./reset";
 
 export default function Welcome() {
     return (
-        <div>
+        <div className="welcome">
             <Logo />
             <HashRouter>
-                <div>
+                <div className="welcome-box">
                     <Route exact path="/" component={Registration} />
                     <Route path="/login" component={Login} />
                     <Route

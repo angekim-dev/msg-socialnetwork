@@ -65,64 +65,61 @@ export default class App extends React.Component {
             return (
                 <BrowserRouter>
                     <div className="app">
-                        <div>
-                            <h1>Hello from App</h1>
-                            <Presentational
-                                first={this.state.first}
-                                last={this.state.last}
-                                // id={this.state.id}
-                                imageUrl={this.state.imageUrl}
-                                toggleModal={() => this.toggleModal()}
-                            />
+                        <Presentational
+                            first={this.state.first}
+                            last={this.state.last}
+                            // id={this.state.id}
+                            imageUrl={this.state.imageUrl}
+                            toggleModal={() => this.toggleModal()}
+                        />
 
-                            <Route
-                                exact
-                                path="/"
-                                render={() => (
-                                    <Profile
-                                        first={this.state.first}
-                                        last={this.state.last}
-                                        // id={this.state.id}
-                                        imageUrl={this.state.imageUrl}
-                                        toggleModal={() => this.toggleModal()}
-                                        bio={this.state.bio}
-                                        saveBio={(arg) => this.saveBio(arg)}
-                                    />
-                                )}
-                            />
-
-                            <Route
-                                exact
-                                path="/user/:id"
-                                render={(props) => (
-                                    <OtherProfile
-                                        key={props.match.url}
-                                        match={props.match}
-                                        history={props.history}
-                                    />
-                                )}
-                            />
-
-                            <Route
-                                exact
-                                path="/users"
-                                render={() => <FindPeople />}
-                            />
-                            <Route
-                                exact
-                                path="/friends"
-                                render={() => <Friends />}
-                            />
-                            {/* <Route exact path="/chat" component={Chat} />
-                        <Route exact path="/online" component={OnlineUsers} /> */}
-
-                            {this.state.uploaderIsVisible && (
-                                <Uploader
-                                    methodInApp={(arg) => this.methodInApp(arg)}
+                        <Route
+                            exact
+                            path="/"
+                            render={() => (
+                                <Profile
+                                    first={this.state.first}
+                                    last={this.state.last}
+                                    // id={this.state.id}
+                                    imageUrl={this.state.imageUrl}
                                     toggleModal={() => this.toggleModal()}
+                                    bio={this.state.bio}
+                                    saveBio={(arg) => this.saveBio(arg)}
                                 />
                             )}
-                        </div>
+                        />
+
+                        <Route
+                            exact
+                            path="/user/:id"
+                            render={(props) => (
+                                <OtherProfile
+                                    key={props.match.url}
+                                    match={props.match}
+                                    history={props.history}
+                                />
+                            )}
+                        />
+
+                        <Route
+                            exact
+                            path="/users"
+                            render={() => <FindPeople />}
+                        />
+                        <Route
+                            exact
+                            path="/friends"
+                            render={() => <Friends />}
+                        />
+                        {/* <Route exact path="/chat" component={Chat} />
+                        <Route exact path="/online" component={OnlineUsers} /> */}
+
+                        {this.state.uploaderIsVisible && (
+                            <Uploader
+                                methodInApp={(arg) => this.methodInApp(arg)}
+                                toggleModal={() => this.toggleModal()}
+                            />
+                        )}
                     </div>
                 </BrowserRouter>
             );

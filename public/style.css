@@ -1,22 +1,74 @@
 * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
-.app {
-    background-color: cornflowerblue;
-}
-.reg {
-    background-color: rosybrown;
-}
+/* REGISTRATION */
+.reg,
 .login {
-    background-color: salmon;
+    background-color: lightgrey;
+    display: flex;
+    min-height: 90vh;
+    justify-items: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 20px;
 }
+.register-login {
+    display: flex;
+}
+/* .welcome {
+    display: flex;
+    justify-items: center;
+    align-items: center;
+    flex-direction: column;
+} */
+
+/* .welcome-box {
+    display: flex;
+    justify-items: center;
+    align-items: center;
+    flex-direction: column;
+} */
 .logo {
     max-height: 100px;
+    background-color: white;
 }
+.logo-container {
+    background-color: white;
+}
+/* WE ENTERED */
+.presentational {
+    display: grid;
+    grid-template-columns: 1fr 1fr minmax(20px, 100px);
+}
+.nav {
+    background-color: white;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+}
+.nav div {
+    margin: 0px;
+}
+.nav div a {
+    padding: 10px;
+}
+
 .mini-profile-pic {
     max-height: 100px;
 }
-.pic {
+.mini-profile-pic-container {
+    background-color: white;
 }
+.app {
+    background-color: lightgrey;
+    display: grid;
+    min-height: 100vh;
+    grid-template-rows: 100px 100px auto;
+}
+/* .pic {
+} */
 .uploader-modal {
     position: fixed;
     background-color: coral;

@@ -10,7 +10,7 @@ export default function Presentational({ first, last, imageUrl, toggleModal }) {
     // console.log("props in Presentational: ", props);
 
     return (
-        <div>
+        <div className="presentational">
             <Logo />
             <Nav />
             <ProfilePic

@@ -9,13 +9,13 @@ export default function Nav() {
                 <Logout />
             </div>
             <div>
-                <Link to="/users">Find People</Link>
+                <Link to="/users">Find People </Link>
             </div>
             <div>
-                <Link to="/friends">Friends</Link>
+                <Link to="/friends">Friends </Link>
             </div>
             <div>
-                <Link to="/">My Profile</Link>
+                <Link to="/">My Profile </Link>
             </div>
         </div>
     );

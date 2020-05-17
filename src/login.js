@@ -45,7 +45,6 @@ export default class Login extends React.Component {
             <div className="login">
                 <h3>I am the Login Component!</h3>
                 <Link to="/">Back to registration!</Link>
-                <br></br>
                 {this.state.error && <div>Oops something went wrong</div>}
                 <input
                     name="email"
