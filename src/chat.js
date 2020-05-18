@@ -1,6 +1,8 @@
 import React, { useEffect, useRef } from "react";
 import { socket } from "./socket";
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import ProfilePic from "./profilepic";
 
 export default function Chat() {
     const elemRef = useRef();
@@ -9,7 +11,7 @@ export default function Chat() {
     useEffect(() => {
         console.log("chat hooks component has mounted");
         console.log("elemRef = ", elemRef);
-        console.log("scroll tops: ", elemRef.current.scrollTop);
+        console.log("scrollTop: ", elemRef.current.scrollTop);
         console.log("clientHeight: ", elemRef.current.clientHeight);
         console.log("scrollHeight: ", elemRef.current.scrollHeight);
 
@@ -39,24 +41,23 @@ export default function Chat() {
         <div>
             <p className="chat-title">Welcome to Chat</p>
             <div className="chat-messages-container" ref={elemRef}>
-                <p>Chat message will go here</p>
-                <p>Chat message will go here</p>
-                <p>Chat message will go here</p>
-                <p>Chat message will go here</p>
-                <p>Chat message will go here</p>
-                <p>Chat message will go here</p>
-                <p>Chat message will go here</p>
-                <p>Chat message will go here</p>
-                <p>Chat message will go here</p>
-                <p>Chat message will go here</p>
-                <p>Chat message will go here</p>
-                <p>Chat message will go here</p>
-                <p>Chat message will go here</p>
-                <p>Chat message will go here</p>
-                <p>Chat message will go here</p>
-                <p>Chat message will go here</p>
-                <p>Chat message will go here</p>
-                <p>Chat message will go here</p>
+                {chatMessages &&
+                    chatMessages.map((text) => (
+                        <div key={text.chats_id}>
+                            <Link to={`/user/${text.id}`}>
+                                <ProfilePic
+                                    first={text.first}
+                                    last={text.last}
+                                    imageUrl={text.image_url}
+                                />
+                                <div>
+                                    {text.first} {text.last}
+                                </div>
+                            </Link>
+                            <div>{text.created_at}</div>
+                            <div>{text.message}</div>
+                        </div>
+                    ))}
             </div>
             <textarea
                 placeholder="Add your message here"

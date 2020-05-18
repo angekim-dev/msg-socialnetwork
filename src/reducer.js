@@ -35,5 +35,13 @@ export default function reducer(state = {}, action) {
         };
         console.log("***state in END in reducer: ", state);
     }
+
+    if (action.type == "GET_LAST_TEN_MESSAGES") {
+        state = {
+            ...state,
+            chatMessages: action.msgs,
+        };
+    }
+
     return state;
 }

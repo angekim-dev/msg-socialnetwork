@@ -138,3 +138,10 @@ module.exports.getLastTenMessages = () => {
         ON users.id = messenger_id ORDER BY chats_id DESC LIMIT 10;`
     );
 };
+
+// module.exports.addMessage = (message, messenger_id) => {
+//     return db.query(
+//         `INSERT INTO chats (message, messenger_id) VALUES ($1, $2) RETURNING *;`,
+//         [message, messenger_id]
+//     );
+// };

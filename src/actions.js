@@ -37,3 +37,10 @@ export async function endFriendship(id) {
         id,
     };
 }
+
+export function chatMessages(msgs) {
+    return {
+        type: "GET_LAST_TEN_MESSAGES",
+        msgs,
+    };
+}
