@@ -15,6 +15,9 @@ export default function Nav() {
                 <Link to="/friends">Friends </Link>
             </div>
             <div>
+                <Link to="/chat">Chat </Link>
+            </div>
+            <div>
                 <Link to="/">My Profile </Link>
             </div>
         </div>

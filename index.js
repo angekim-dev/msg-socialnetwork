@@ -459,12 +459,12 @@ io.on("connection", function (socket) {
     // this is a good place to go get last 10 messages
     // need to make new table for chats
 
-    // db.getLastTenMessages().then((data) => {
-    //     console.log(data.rows);
-    //     io.sockets.emit("chatMessages", data.rows); // can choose name for first argument yourself
-    //     // send info to all connected clients
-    //     // usually takes 2 arguments
-    // });
+    db.getLastTenMessages().then((data) => {
+        console.log(data.rows);
+        io.sockets.emit("chatMessages", data.rows); // can choose name for first argument yourself
+        // send info to all connected clients
+        // usually takes 2 arguments
+    });
 
     // your db query for getting last 10 messages will need to be a JOIN
     // you'll need info from both users table and chat (user's first, last name, image and chat message)

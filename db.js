@@ -19,11 +19,8 @@ module.exports.getUser = (id) => {
     return db.query(`SELECT * FROM users WHERE id = $1;`, [id]);
 };
 
-module.exports.getRecentUsers = (id) => {
-    return db.query(
-        `SELECT * FROM users WHERE id != $1 ORDER BY id DESC LIMIT 3;`,
-        [id]
-    );
+module.exports.getRecentUsers = () => {
+    return db.query(`SELECT * FROM users ORDER BY id DESC LIMIT 3;`);
 };
 
 module.exports.getSearchedUsers = (val) => {
@@ -128,5 +125,16 @@ module.exports.getFriendsWannabes = (id) => {
         OR (accepted = true AND receiver_id = $1 AND sender_id = users.id) 
         OR (accepted = true AND receiver_id = $1 AND sender_id = users.id);`,
         [id]
+    );
+};
+
+/////CHAT/////
+
+module.exports.getLastTenMessages = () => {
+    return db.query(
+        `SELECT chats.id AS chats_id, users.id, first, last, image_url, message, messenger_id, chats.created_at
+        FROM users
+        JOIN chats
+        ON users.id = messenger_id ORDER BY chats_id DESC LIMIT 10;`
     );
 };
