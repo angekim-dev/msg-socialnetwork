@@ -42,22 +42,24 @@ export default function Chat() {
             <p className="chat-title">Welcome to Chat</p>
             <div className="chat-messages-container" ref={elemRef}>
                 {chatMessages &&
-                    chatMessages.map((text) => (
-                        <div key={text.chats_id}>
-                            <Link to={`/user/${text.id}`}>
-                                <ProfilePic
-                                    first={text.first}
-                                    last={text.last}
-                                    imageUrl={text.image_url}
-                                />
-                                <div>
-                                    {text.first} {text.last}
-                                </div>
-                            </Link>
-                            <div>{text.created_at}</div>
-                            <div>{text.message}</div>
-                        </div>
-                    ))}
+                    chatMessages.map((text) => {
+                        return (
+                            <div key={text.chats_id}>
+                                <Link to={`/user/${text.id}`}>
+                                    <ProfilePic
+                                        first={text.first}
+                                        last={text.last}
+                                        imageUrl={text.image_url}
+                                    />
+                                    <div>
+                                        {text.first} {text.last}
+                                    </div>
+                                </Link>
+                                <div>{text.created_at}</div>
+                                <div>{text.message}</div>
+                            </div>
+                        );
+                    })}
             </div>
             <textarea
                 placeholder="Add your message here"
