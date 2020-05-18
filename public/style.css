@@ -78,3 +78,14 @@
 .uploader-text {
     color: chartreuse;
 }
+
+.chat-messages-container {
+    border: 1px solid;
+    text-align: center;
+    margin: 10px;
+    box-shadow: 2px 5px gray;
+
+    height: 300px;
+    width: 80%;
+    overflow-y: scroll;
+}

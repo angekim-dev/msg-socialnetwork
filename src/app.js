@@ -7,6 +7,8 @@ import { BrowserRouter, Route } from "react-router-dom";
 import OtherProfile from "./other-profile";
 import FindPeople from "./find-people";
 import Friends from "./friends";
+import Chat from "./chat";
+import OnlineUsers from "./online";
 
 export default class App extends React.Component {
     constructor() {
@@ -111,8 +113,8 @@ export default class App extends React.Component {
                             path="/friends"
                             render={() => <Friends />}
                         />
-                        {/* <Route exact path="/chat" component={Chat} />
-                        <Route exact path="/online" component={OnlineUsers} /> */}
+                        <Route exact path="/chat" component={Chat} />
+                        <Route exact path="/online" component={OnlineUsers} />
 
                         {this.state.uploaderIsVisible && (
                             <Uploader

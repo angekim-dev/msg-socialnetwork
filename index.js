@@ -1,5 +1,11 @@
 const express = require("express");
 const app = express();
+
+// socket io code ALWAYS after app
+const server = require("http").Server(app);
+const io = require("socket.io")(server, { origins: "localhost:8080" });
+//
+
 const compression = require("compression");
 const cookieSession = require("cookie-session");
 const csurf = require("csurf");
@@ -38,12 +44,26 @@ const uploader = multer({
 app.use(compression());
 app.use(express.static("./public"));
 
-app.use(
-    cookieSession({
-        secret: "I'm always angry",
-        maxAge: 1000 * 60 * 60 * 24 * 14,
-    })
-);
+// ///// COOKIE SESSION /////
+// app.use(
+//     cookieSession({
+//         secret: "I'm always angry",
+//         maxAge: 1000 * 60 * 60 * 24 * 14,
+//     })
+// );
+// /////
+
+///// COOKIE SESSION with socket io /////
+const cookieSessionMiddleware = cookieSession({
+    secret: `I'm always angry.`,
+    maxAge: 1000 * 60 * 60 * 24 * 90,
+});
+
+app.use(cookieSessionMiddleware);
+io.use(function (socket, next) {
+    cookieSessionMiddleware(socket.request, socket.request.res, next);
+});
+//////////////////////////////////////////
 
 // csurf security
 app.use(csurf());
@@ -420,6 +440,48 @@ app.get("*", (req, res) => {
     }
 });
 
-app.listen(8080, function () {
+server.listen(8080, function () {
     console.log("I'm listening.");
+});
+
+///// socket code /////
+io.on("connection", function (socket) {
+    console.log(`socket with id ${socket.id} is now connected`);
+
+    // if user not logged in, disconnect them from sockets! they are not allowed to use sockets!
+    if (!socket.request.session.userId) {
+        //if your cookie is called userId
+        return socket.disconnect(true);
+    }
+
+    const userId = socket.request.session.userId;
+
+    // this is a good place to go get last 10 messages
+    // need to make new table for chats
+
+    // db.getLastTenMessages().then((data) => {
+    //     console.log(data.rows);
+    //     io.sockets.emit("chatMessages", data.rows); // can choose name for first argument yourself
+    //     // send info to all connected clients
+    //     // usually takes 2 arguments
+    // });
+
+    // your db query for getting last 10 messages will need to be a JOIN
+    // you'll need info from both users table and chat (user's first, last name, image and chat message)
+    // most recent msg should be at the bottom
+    // your query can order the chat appropriately OR you can order them in your server code (here)
+
+    socket.on("My amazing chat message", (newMsg) => {
+        // only runs if we emit the first argument
+        // need to build chat component for it to function
+        console.log("This message is coming from chat.js component: ", newMsg);
+
+        console.log("User who sent newMsg is: ", userId);
+
+        // 1. db query to store new chat message in chat table
+        // 2. db query to get into about user (first, last name, img)
+        // once you have that information, emit our message to everyone, so everyone can see it immediately
+
+        io.sockets.emit("addChatMsg", newMsg); //we will be sending a lot more (user info, pic, timestamp and last message)
+    });
 });
