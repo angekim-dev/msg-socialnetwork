@@ -3,11 +3,10 @@ import { socket } from "./socket";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import ProfilePic from "./profilepic";
-import { chat } from "./actions";
 
 export default function Chat() {
     const elemRef = useRef();
-    const chat = useSelector((state) => state && chat);
+    const chatMessages = useSelector((state) => state && chatMessages);
 
     useEffect(() => {
         console.log("chat hooks component has mounted");
@@ -25,7 +24,7 @@ export default function Chat() {
     }, []);
 
     //this will be undefined for you right now
-    console.log("here are my last 10 chat messages: ", chat);
+    console.log("here are my last 10 chat messages: ", chatMessages);
 
     const keyCheck = (e) => {
         console.log("value: ", e.target.value);
@@ -42,8 +41,8 @@ export default function Chat() {
         <div>
             <p className="chat-title">Welcome to Chat</p>
             <div className="chat-messages-container" ref={elemRef}>
-                {chat &&
-                    chat.map((text) => {
+                {chatMessages &&
+                    chatMessages.map((text) => {
                         return (
                             <div key={text.chats_id}>
                                 <Link to={`/user/${text.id}`}>

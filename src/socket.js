@@ -1,6 +1,6 @@
 import * as io from "socket.io-client";
 
-import { chat, chatMessage } from "./actions";
+import { chatMessages, chatMessage } from "./actions";
 
 export let socket;
 
@@ -8,7 +8,7 @@ export const init = (store) => {
     if (!socket) {
         socket = io.connect();
 
-        socket.on("chat", (msgs) => store.dispatch(chat(msgs)));
+        socket.on("chatMessages", (msgs) => store.dispatch(chatMessages(msgs)));
         //also data possible or lastTenMsg
 
         // socket.on("chatMessage", (msg) => store.dispatch(chatMessage(msg)));

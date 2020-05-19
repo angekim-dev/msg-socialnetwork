@@ -39,7 +39,7 @@ export default function reducer(state = {}, action) {
     if (action.type == "GET_LAST_TEN_MESSAGES") {
         state = {
             ...state,
-            chat: action.msgs,
+            chatMessages: action.msgs,
         };
     }
 

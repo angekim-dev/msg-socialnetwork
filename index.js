@@ -382,14 +382,14 @@ app.get("/api/friendshipstatus/:id", (req, res) => {
 
 ///// POST /api/friendshipstatus/:id /////
 app.post("/api/friendshipstatus/:id", (req, res) => {
-    const currentAction = req.body.text;
+    const currentAction = req.body.action;
     const id = req.params.id;
     if (currentAction == "Be Mine") {
         return db
             .addFriendship(id, req.session.userId)
             .then((result) => {
                 console.log("**rows in addfriendship POST", result.rows);
-                res.json({ text: "Cancel request" });
+                res.json({ action: "Cancel request" });
             })
             .catch((err) => {
                 console.log("Error in POST db.addFriendship: ", err);
@@ -402,7 +402,7 @@ app.post("/api/friendshipstatus/:id", (req, res) => {
             .deleteFriendship(id, req.session.userId)
             .then(() => {
                 console.log("nevermind");
-                res.json({ text: "Be Mine" });
+                res.json({ action: "Be Mine" });
             })
             .catch((err) => {
                 console.log("Error in POST db.deleteFriendship: ", err);
@@ -412,7 +412,7 @@ app.post("/api/friendshipstatus/:id", (req, res) => {
             .acceptFriendship(id, req.session.userId)
             .then(() => {
                 console.log("there will be friends!!");
-                res.json({ text: "End friendship" });
+                res.json({ action: "End friendship" });
             })
             .catch((err) => {
                 console.log("Error in POST db.acceptFriendship: ", err);
@@ -481,7 +481,7 @@ io.on("connection", function (socket) {
 
     db.getLastTenMessages().then((data) => {
         console.log(data.rows);
-        io.sockets.emit("chat", data.rows); // can choose name for first argument yourself
+        io.sockets.emit("chatMessages", data.rows); // can choose name for first argument yourself
         // send info to all connected clients
         // usually takes 2 arguments
     });
