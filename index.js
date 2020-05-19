@@ -465,22 +465,19 @@ io.on("connection", function (socket) {
 
     onlineUsers[socket.id] = userId; // emit not all, so there are no doubles
     console.log("onlineUsers", onlineUsers);
-    const browsingUserIds = Object.values(onlineUsers);
+    let browsingUserIds = Object.values(onlineUsers);
     console.log("browsingUserIds", browsingUserIds);
     db.getUsersByIds(browsingUserIds).then((data) => {
         // console.log("DATA.rows in getUsersById", data.rows);
         io.sockets.emit("peopleOnline", data.rows);
     });
 
-    ///in db.js///
-    // function getUsersByIds(arrayOfIds) {
-    //     const query = `SELECT id, first, last, pic FROM users WHERE id = ANY($1)`;
-    //     return db.query(query, [arrayOfIds]);
-    // }
-
-    // socket.on("disconnect", function () {
-    //     // do sth when user disconnects, i.e. logs out of site
-    // });
+    socket.on("disconnect", (browsingUserIds) => {
+        console.log("here disconnect");
+        let lessId = browsingUserIds.pop();
+        console.log("less", lessId);
+        // do sth when user disconnects, i.e. logs out of site
+    });
     // /////////////////////////////////////
 
     db.getLastTenMessages().then((data) => {
