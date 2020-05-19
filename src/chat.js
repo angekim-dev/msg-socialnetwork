@@ -38,7 +38,7 @@ export default function Chat() {
         }
     };
     return (
-        <div>
+        <div className="chat">
             <p className="chat-title">Welcome to Chat</p>
             <div className="chat-messages-container" ref={elemRef}>
                 {chatMessages &&
@@ -55,8 +55,12 @@ export default function Chat() {
                                         {text.first} {text.last}
                                     </div>
                                 </Link>
-                                <div>{text.created_at}</div>
-                                <div>{text.message}</div>
+                                <div className="chat-message">
+                                    <div>posted on: {text.created_at}</div>
+                                    <div className="chat-message-text">
+                                        {text.message}
+                                    </div>
+                                </div>
                             </div>
                         );
                     })}
