@@ -21,7 +21,7 @@ export default function Chat() {
         elemRef.current.scrollTop =
             elemRef.current.scrollHeight - elemRef.current.clientHeight;
         // every time you get a chat message DO THIS calculation
-    }, []);
+    }, [chatMessages]);
 
     //this will be undefined for you right now
     console.log("here are my last 10 chat messages: ", chatMessages);

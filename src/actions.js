@@ -44,3 +44,10 @@ export function chatMessages(msgs) {
         msgs,
     };
 }
+
+export function chatMessage(msg) {
+    return {
+        type: "POST_MESSAGE",
+        msg,
+    };
+}

@@ -480,28 +480,34 @@ io.on("connection", function (socket) {
     // /////////////////////////////////////
 
     db.getLastTenMessages().then((data) => {
-        console.log(data.rows);
-        io.sockets.emit("chatMessages", data.rows); // can choose name for first argument yourself
+        console.log("last ten messages from db", data.rows);
+        io.sockets.emit("chatMessages", data.rows.reverse());
         // send info to all connected clients
         // usually takes 2 arguments
     });
 
-    // your db query for getting last 10 messages will need to be a JOIN
-    // you'll need info from both users table and chat (user's first, last name, image and chat message)
-    // most recent msg should be at the bottom
-    // your query can order the chat appropriately OR you can order them in your server code (here)
-
     socket.on("My amazing chat message", (newMsg) => {
-        // only runs if we emit the first argument
-        // need to build chat component for it to function
         console.log("This message is coming from chat.js component: ", newMsg);
-
         console.log("User who sent newMsg is: ", userId);
+        return db.addMessage(newMsg, userId).then((data) => {
+            console.log("data.rows in addMessage in index.js", data.rows);
+            let addedMessage = {
+                chats_id: data.rows[0].id,
+                message: data.rows[0].message,
+                messenger_id: data.rows[0].messenger_id,
+                created_at: data.rows[0].created_at,
+            };
 
-        // 1. db query to store new chat message in chat table
-        // 2. db query to get into about user (first, last name, img)
-        // once you have that information, emit our message to everyone, so everyone can see it immediately
-
-        io.sockets.emit("addChatMsg", newMsg); //we will be sending a lot more (user info, pic, timestamp and last message)
+            return db.getUser(userId).then((data) => {
+                console.log("data in getUser in chat", data);
+                let postInfo = {
+                    ...addedMessage,
+                    first: data.rows[0].first,
+                    last: data.rows[0].last,
+                    image_url: data.rows[0].image_url,
+                };
+                io.sockets.emit("chatMessage", postInfo); //we will be sending a lot more (user info, pic, timestamp and last message)
+            });
+        });
     });
 });
