@@ -474,8 +474,8 @@ io.on("connection", function (socket) {
 
     socket.on("disconnect", (browsingUserIds) => {
         console.log("here disconnect");
-        let lessId = browsingUserIds.pop();
-        console.log("less", lessId);
+        browsingUserIds = browsingUserIds.pop();
+        console.log("browsingUserIds", browsingUserIds);
         // do sth when user disconnects, i.e. logs out of site
     });
     // /////////////////////////////////////
