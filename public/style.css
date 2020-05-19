@@ -125,3 +125,26 @@
     min-width: 480px;
     min-height: 100px;
 }
+/* ONLINE */
+.onlineUsers-container h3 {
+    margin: 10px;
+}
+.onlineUsers {
+    margin: 10px;
+    display: flex;
+    flex-direction: row;
+}
+.peopleOnline {
+    display: flex;
+    margin: 10px;
+}
+.personOnline {
+    margin: 20px;
+    padding: 15px;
+    width: 130px;
+    align-self: center;
+    background-color: white;
+}
+.peopleOnline img {
+    margin: 12px;
+}

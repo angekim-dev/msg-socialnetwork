@@ -468,7 +468,7 @@ io.on("connection", function (socket) {
     const browsingUserIds = Object.values(onlineUsers);
     console.log("browsingUserIds", browsingUserIds);
     db.getUsersByIds(browsingUserIds).then((data) => {
-        console.log("DATA.rows in getUsersById", data.rows);
+        // console.log("DATA.rows in getUsersById", data.rows);
         io.sockets.emit("peopleOnline", data.rows);
     });
 
