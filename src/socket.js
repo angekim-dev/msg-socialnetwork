@@ -1,6 +1,6 @@
 import * as io from "socket.io-client";
 
-import { chatMessages, chatMessage } from "./actions";
+import { chatMessages, chatMessage, peopleOnline } from "./actions";
 
 export let socket;
 
@@ -13,10 +13,6 @@ export const init = (store) => {
 
         socket.on("chatMessage", (msg) => store.dispatch(chatMessage(msg)));
 
-        // socket.on("addChatMsg", (msg) => {
-        //     console.log(
-        //         `Got a message in the client!! I'm about to start the whole redux process by dispatching here. My message is ${msg}`
-        //     );
-        // });
+        socket.on("peopleOnline", (x) => store.dispatch(peopleOnline(x)));
     }
 };

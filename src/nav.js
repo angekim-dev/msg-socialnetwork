@@ -18,6 +18,9 @@ export default function Nav() {
                 <Link to="/chat">Chat </Link>
             </div>
             <div>
+                <Link to="/online">Online </Link>
+            </div>
+            <div>
                 <Link to="/">My Profile </Link>
             </div>
         </div>

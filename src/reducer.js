@@ -51,5 +51,12 @@ export default function reducer(state = {}, action) {
         console.log("state in reducer", state);
     }
 
+    if (action.type == "THEY_ONLINE") {
+        state = {
+            ...state,
+            peopleOnline: action.x,
+        };
+        console.log("state in reducer", state);
+    }
     return state;
 }

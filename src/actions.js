@@ -51,3 +51,10 @@ export function chatMessage(msg) {
         msg,
     };
 }
+
+export function peopleOnline(x) {
+    return {
+        type: "THEY_ONLINE",
+        x,
+    };
+}

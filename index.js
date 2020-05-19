@@ -461,14 +461,19 @@ io.on("connection", function (socket) {
     // //     [socket.id]: userId
     // // } //an other option
 
-    // let onlineUsers = [
-    //     {
-    //         id: userId,
-    //         socketId: socket.id,
-    //     },
-    // ]; // emit not all, so there are no doubles
+    let onlineUsers = [
+        {
+            id: userId,
+            socketId: socket.id,
+        },
+    ]; // emit not all, so there are no doubles
+    console.log("onlineUsers", onlineUsers);
+    db.getUsersByIds(userId).then((data) => {
+        console.log("DATA.rows in getUsersById", data.rows);
+        io.sockets.emit("peopleOnline", data.rows);
+    });
 
-    // ///in db.js///
+    ///in db.js///
     // function getUsersByIds(arrayOfIds) {
     //     const query = `SELECT id, first, last, pic FROM users WHERE id = ANY($1)`;
     //     return db.query(query, [arrayOfIds]);
@@ -480,17 +485,17 @@ io.on("connection", function (socket) {
     // /////////////////////////////////////
 
     db.getLastTenMessages().then((data) => {
-        console.log("last ten messages from db", data.rows);
+        // console.log("last ten messages from db", data.rows);
         io.sockets.emit("chatMessages", data.rows.reverse());
         // send info to all connected clients
         // usually takes 2 arguments
     });
 
     socket.on("My amazing chat message", (newMsg) => {
-        console.log("This message is coming from chat.js component: ", newMsg);
-        console.log("User who sent newMsg is: ", userId);
+        // console.log("This message is coming from chat.js component: ", newMsg);
+        // console.log("User who sent newMsg is: ", userId);
         return db.addMessage(newMsg, userId).then((data) => {
-            console.log("data.rows in addMessage in index.js", data.rows);
+            // console.log("data.rows in addMessage in index.js", data.rows);
             let addedMessage = {
                 chats_id: data.rows[0].id,
                 message: data.rows[0].message,
@@ -499,7 +504,7 @@ io.on("connection", function (socket) {
             };
 
             return db.getUser(userId).then((data) => {
-                console.log("data in getUser in chat", data);
+                // console.log("data in getUser in chat", data);
                 let postInfo = {
                     ...addedMessage,
                     first: data.rows[0].first,

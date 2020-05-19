@@ -145,3 +145,15 @@ module.exports.addMessage = (message, messenger_id) => {
         [message, messenger_id]
     );
 };
+
+///// BONUS /////
+
+module.exports.getUsersByIds = (arrayOfIds) => {
+    return db.query(
+        `SELECT id, first, last, image_url
+        FROM users
+        WHERE id = ($1);`,
+        [arrayOfIds]
+    );
+};
+//  ANY
