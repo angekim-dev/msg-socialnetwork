@@ -11,7 +11,7 @@ export default function FriendshipButton({ otherId }) {
             .get(`/api/friendshipstatus/${otherId}`)
             .then(({ data }) => {
                 console.log("resp: ", data);
-                setButtonText(data.action);
+                setButtonText(data.text);
             })
             .catch((err) => {
                 console.log("Error in axios friendshipstatus: ", err);
@@ -24,10 +24,10 @@ export default function FriendshipButton({ otherId }) {
             buttonText
         );
         axios
-            .post(`/api/friendshipstatus/${otherId}`, { action: buttonText })
+            .post(`/api/friendshipstatus/${otherId}`, { text: buttonText })
             .then(({ data }) => {
                 console.log("LINE 36", data);
-                setButtonText(data.action);
+                setButtonText(data.text);
             })
             .catch((err) => {
                 console.log("Error in axios POST friendship: ", err);

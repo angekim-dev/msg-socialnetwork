@@ -38,7 +38,7 @@ export async function endFriendship(id) {
     };
 }
 
-export function chatMessages(msgs) {
+export function chat(msgs) {
     return {
         type: "GET_LAST_TEN_MESSAGES",
         msgs,

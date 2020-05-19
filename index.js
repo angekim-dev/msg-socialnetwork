@@ -382,14 +382,14 @@ app.get("/api/friendshipstatus/:id", (req, res) => {
 
 ///// POST /api/friendshipstatus/:id /////
 app.post("/api/friendshipstatus/:id", (req, res) => {
-    const currentAction = req.body.action;
+    const currentAction = req.body.text;
     const id = req.params.id;
     if (currentAction == "Be Mine") {
         return db
             .addFriendship(id, req.session.userId)
             .then((result) => {
                 console.log("**rows in addfriendship POST", result.rows);
-                res.json({ action: "Cancel request" });
+                res.json({ text: "Cancel request" });
             })
             .catch((err) => {
                 console.log("Error in POST db.addFriendship: ", err);
@@ -402,7 +402,7 @@ app.post("/api/friendshipstatus/:id", (req, res) => {
             .deleteFriendship(id, req.session.userId)
             .then(() => {
                 console.log("nevermind");
-                res.json({ action: "Be Mine" });
+                res.json({ text: "Be Mine" });
             })
             .catch((err) => {
                 console.log("Error in POST db.deleteFriendship: ", err);
@@ -412,7 +412,7 @@ app.post("/api/friendshipstatus/:id", (req, res) => {
             .acceptFriendship(id, req.session.userId)
             .then(() => {
                 console.log("there will be friends!!");
-                res.json({ action: "End friendship" });
+                res.json({ text: "End friendship" });
             })
             .catch((err) => {
                 console.log("Error in POST db.acceptFriendship: ", err);
@@ -456,12 +456,32 @@ io.on("connection", function (socket) {
 
     const userId = socket.request.session.userId;
 
-    // this is a good place to go get last 10 messages
-    // need to make new table for chats
+    // /// FOR BONUS TASK 2 with Pete /////
+    // // let onlineUsers = {
+    // //     [socket.id]: userId
+    // // } //an other option
+
+    // let onlineUsers = [
+    //     {
+    //         id: userId,
+    //         socketId: socket.id,
+    //     },
+    // ]; // emit not all, so there are no doubles
+
+    // ///in db.js///
+    // function getUsersByIds(arrayOfIds) {
+    //     const query = `SELECT id, first, last, pic FROM users WHERE id = ANY($1)`;
+    //     return db.query(query, [arrayOfIds]);
+    // }
+
+    // socket.on("disconnect", function () {
+    //     // do sth when user disconnects, i.e. logs out of site
+    // });
+    // /////////////////////////////////////
 
     db.getLastTenMessages().then((data) => {
         console.log(data.rows);
-        io.sockets.emit("chatMessages", data.rows); // can choose name for first argument yourself
+        io.sockets.emit("chat", data.rows); // can choose name for first argument yourself
         // send info to all connected clients
         // usually takes 2 arguments
     });
