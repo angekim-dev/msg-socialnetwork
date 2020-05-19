@@ -152,8 +152,7 @@ module.exports.getUsersByIds = (arrayOfIds) => {
     return db.query(
         `SELECT id, first, last, image_url
         FROM users
-        WHERE id = ($1);`,
+        WHERE id = ANY ($1);`,
         [arrayOfIds]
     );
 };
-//  ANY

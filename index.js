@@ -444,6 +444,8 @@ server.listen(8080, function () {
     console.log("I'm listening.");
 });
 
+let onlineUsers = {};
+
 ///// socket code /////
 io.on("connection", function (socket) {
     console.log(`socket with id ${socket.id} is now connected`);
@@ -461,14 +463,11 @@ io.on("connection", function (socket) {
     // //     [socket.id]: userId
     // // } //an other option
 
-    let onlineUsers = [
-        {
-            id: userId,
-            socketId: socket.id,
-        },
-    ]; // emit not all, so there are no doubles
+    onlineUsers[socket.id] = userId; // emit not all, so there are no doubles
     console.log("onlineUsers", onlineUsers);
-    db.getUsersByIds(userId).then((data) => {
+    const browsingUserIds = Object.values(onlineUsers);
+    console.log("browsingUserIds", browsingUserIds);
+    db.getUsersByIds(browsingUserIds).then((data) => {
         console.log("DATA.rows in getUsersById", data.rows);
         io.sockets.emit("peopleOnline", data.rows);
     });
