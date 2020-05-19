@@ -6,7 +6,7 @@ import ProfilePic from "./profilepic";
 
 export default function Chat() {
     const elemRef = useRef();
-    const chatMessages = useSelector((state) => state && chatMessages);
+    const chatMessages = useSelector((state) => state && state.chatMessages);
 
     useEffect(() => {
         console.log("chat hooks component has mounted");
