@@ -58,3 +58,10 @@ export function peopleOnline(x) {
         x,
     };
 }
+
+export function peopleOffline(id) {
+    return {
+        type: "THEY_OFFLINE",
+        id,
+    };
+}

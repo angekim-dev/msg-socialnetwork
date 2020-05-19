@@ -6,7 +6,9 @@ import ProfilePic from "./profilepic";
 
 export default function OnlineUsers() {
     const peopleOnline = useSelector((state) => state && state.peopleOnline);
+    const peopleOffline = useSelector((state) => state && state.peopleOffline);
     console.log("These people are online", peopleOnline);
+    console.log("These people are offline", peopleOffline);
     return (
         <div className="onlineUsers-container">
             <h3>These people are online</h3>

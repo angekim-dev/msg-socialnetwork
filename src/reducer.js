@@ -58,5 +58,13 @@ export default function reducer(state = {}, action) {
         };
         console.log("state in reducer", state);
     }
+
+    if (action.type == "THEY_OFFLINE") {
+        state = {
+            ...state,
+            peopleOffline: action.id,
+        };
+        console.log("state in reducer", state);
+    }
     return state;
 }

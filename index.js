@@ -472,10 +472,9 @@ io.on("connection", function (socket) {
         io.sockets.emit("peopleOnline", data.rows);
     });
 
-    socket.on("disconnect", (browsingUserIds) => {
+    socket.on("disconnect", () => {
         console.log("here disconnect");
-        browsingUserIds = browsingUserIds.pop();
-        console.log("browsingUserIds", browsingUserIds);
+        io.sockets.emit("peopleOffline", socket.id);
         // do sth when user disconnects, i.e. logs out of site
     });
     // /////////////////////////////////////
