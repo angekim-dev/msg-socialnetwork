@@ -468,13 +468,16 @@ io.on("connection", function (socket) {
     let browsingUserIds = Object.values(onlineUsers);
     console.log("browsingUserIds", browsingUserIds);
     db.getUsersByIds(browsingUserIds).then((data) => {
-        // console.log("DATA.rows in getUsersById", data.rows);
+        console.log("DATA.rows in getUsersById", data.rows);
         io.sockets.emit("peopleOnline", data.rows);
     });
 
     socket.on("disconnect", () => {
         console.log("here disconnect");
         delete onlineUsers[socket.id];
+        console.log("**ONLINE", onlineUsers);
+        console.log("**ONLINE", onlineUsers[socket.id]);
+        console.log("**USERID", userId);
         if (userId != onlineUsers[socket.id]) {
             io.sockets.emit("peopleOffline", socket.id);
         }

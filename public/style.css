@@ -148,3 +148,6 @@
 .peopleOnline img {
     margin: 12px;
 }
+.peopleAfterLogout {
+    background-color: blue;
+}

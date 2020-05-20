@@ -14,7 +14,8 @@ export default function OnlineUsers() {
             <h3>These people are online</h3>
             <div className="onlineUsers">
                 <div className="peopleOnline">
-                    {peopleOnline &&
+                    {!peopleOffline &&
+                        peopleOnline &&
                         peopleOnline.map((user) => {
                             return (
                                 <div key={user.id} className="personOnline">
@@ -31,6 +32,27 @@ export default function OnlineUsers() {
                                 </div>
                             );
                         })}
+                </div>
+                <div className="peopleAfterLogout">
+                    {peopleOffline &&
+                        peopleOnline &&
+                        peopleOnline.map((user) => {
+                            return (
+                                <div key={user.id} className="personOnline">
+                                    <Link to={`/user/${user.id}`}>
+                                        <ProfilePic
+                                            first={user.first}
+                                            last={user.last}
+                                            imageUrl={user.image_url}
+                                        />
+                                        <div>
+                                            {user.first} {user.last}
+                                        </div>
+                                    </Link>
+                                </div>
+                            );
+                        })}
+                    somebody just left
                 </div>
             </div>
         </div>
