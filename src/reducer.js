@@ -59,15 +59,5 @@ export default function reducer(state = {}, action) {
         console.log("state in reducer", state);
     }
 
-    if (action.type == "THEY_OFFLINE") {
-        state = {
-            ...state,
-            peopleOnline: state.peopleOnline.filter(
-                (user) => user.socketId == action.id
-            ),
-        };
-        console.log("action.id", action.id);
-        console.log("state in reducer", state);
-    }
     return state;
 }

@@ -4,11 +4,15 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import ProfilePic from "./profilepic";
 
-export default function OnlineUsers() {
-    const peopleOnline = useSelector((state) => state && state.peopleOnline);
-    // const peopleOffline = useSelector((state) => state && state.peopleOffline);
+export default function OnlineUsers({ id }) {
+    console.log("id in online", id);
+    const peopleOnline = useSelector(
+        (state) =>
+            state.peopleOnline &&
+            state.peopleOnline.filter((peopleOnline) => peopleOnline.id != id)
+    );
     console.log("These people are online", peopleOnline);
-    // console.log("This person just logged out", peopleOffline);
+
     return (
         <div className="onlineUsers-container">
             <h3>These people are online</h3>
@@ -32,27 +36,6 @@ export default function OnlineUsers() {
                             );
                         })}
                 </div>
-                {/* <div className="peopleAfterLogout">
-                    {peopleOffline &&
-                        peopleOnline &&
-                        peopleOnline.map((user) => {
-                            return (
-                                <div key={user.id} className="personOnline">
-                                    <Link to={`/user/${user.id}`}>
-                                        <ProfilePic
-                                            first={user.first}
-                                            last={user.last}
-                                            imageUrl={user.image_url}
-                                        />
-                                        <div>
-                                            {user.first} {user.last}
-                                        </div>
-                                    </Link>
-                                </div>
-                            );
-                        })}
-                    somebody just left
-                </div> */}
             </div>
         </div>
     );

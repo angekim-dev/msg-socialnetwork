@@ -463,26 +463,29 @@ io.on("connection", function (socket) {
     // //     [socket.id]: userId
     // // } //an other option
 
-    onlineUsers[socket.id] = userId; // emit not all, so there are no doubles
+    onlineUsers[socket.id] = userId;
     console.log("onlineUsers", onlineUsers);
-    let browsingUserIds = Object.values(onlineUsers);
+
+    var browsingUserIds = Object.values(onlineUsers);
+    console.log("browsingUserIds", browsingUserIds);
+    socket.on("disconnect", function () {
+        delete onlineUsers[socket.id];
+
+        browsingUserIds = Object.values(onlineUsers);
+        db.getUsersByIds(browsingUserIds).then((data) => {
+            console.log("DATA.rows in getUsersById", data.rows);
+
+            io.sockets.emit("peopleOnline", data.rows);
+        });
+    });
+
     console.log("browsingUserIds", browsingUserIds);
     db.getUsersByIds(browsingUserIds).then((data) => {
         console.log("DATA.rows in getUsersById", data.rows);
+
         io.sockets.emit("peopleOnline", data.rows);
     });
 
-    socket.on("disconnect", () => {
-        console.log("here disconnect");
-        delete onlineUsers[socket.id];
-        console.log("**ONLINE", onlineUsers);
-        console.log("**ONLINE", onlineUsers[socket.id]);
-        console.log("**USERID", userId);
-        if (userId != onlineUsers[socket.id]) {
-            io.sockets.emit("peopleOffline", socket.id);
-        }
-        // do sth when user disconnects, i.e. logs out of site
-    });
     // /////////////////////////////////////
 
     db.getLastTenMessages().then((data) => {
