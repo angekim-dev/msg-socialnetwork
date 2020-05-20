@@ -474,7 +474,10 @@ io.on("connection", function (socket) {
 
     socket.on("disconnect", () => {
         console.log("here disconnect");
-        io.sockets.emit("peopleOffline", socket.id);
+        delete onlineUsers[socket.id];
+        if (userId != onlineUsers[socket.id]) {
+            io.sockets.emit("peopleOffline", socket.id);
+        }
         // do sth when user disconnects, i.e. logs out of site
     });
     // /////////////////////////////////////

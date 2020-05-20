@@ -20,7 +20,7 @@ export async function getFriendsWannabes() {
 
 export async function acceptFriendship(id) {
     await axios.post(`api/friendshipstatus/${id}`, {
-        text: "Accept",
+        action: "Accept",
     });
     return {
         type: "ACCEPT_FRIEND_REQUEST",
@@ -30,7 +30,7 @@ export async function acceptFriendship(id) {
 
 export async function endFriendship(id) {
     await axios.post(`api/friendshipstatus/${id}`, {
-        text: "End friendship",
+        action: "End friendship",
     });
     return {
         type: "UNFRIEND",

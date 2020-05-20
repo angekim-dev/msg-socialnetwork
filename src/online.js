@@ -14,19 +14,18 @@ export default function OnlineUsers() {
             <h3>These people are online</h3>
             <div className="onlineUsers">
                 <div className="peopleOnline">
-                    {peopleOffline &&
-                        peopleOnline &&
-                        peopleOnline.map((id) => {
+                    {peopleOnline &&
+                        peopleOnline.map((user) => {
                             return (
-                                <div key={id.id} className="personOnline">
-                                    <Link to={`/online`}>
+                                <div key={user.id} className="personOnline">
+                                    <Link to={`/user/${user.id}`}>
                                         <ProfilePic
-                                            first={id.first}
-                                            last={id.last}
-                                            imageUrl={id.image_url}
+                                            first={user.first}
+                                            last={user.last}
+                                            imageUrl={user.image_url}
                                         />
                                         <div>
-                                            {id.first} {id.last}
+                                            {user.first} {user.last}
                                         </div>
                                     </Link>
                                 </div>
