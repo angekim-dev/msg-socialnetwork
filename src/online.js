@@ -6,16 +6,15 @@ import ProfilePic from "./profilepic";
 
 export default function OnlineUsers() {
     const peopleOnline = useSelector((state) => state && state.peopleOnline);
-    const peopleOffline = useSelector((state) => state && state.peopleOffline);
+    // const peopleOffline = useSelector((state) => state && state.peopleOffline);
     console.log("These people are online", peopleOnline);
-    console.log("This person just logged out", peopleOffline);
+    // console.log("This person just logged out", peopleOffline);
     return (
         <div className="onlineUsers-container">
             <h3>These people are online</h3>
             <div className="onlineUsers">
                 <div className="peopleOnline">
-                    {!peopleOffline &&
-                        peopleOnline &&
+                    {peopleOnline &&
                         peopleOnline.map((user) => {
                             return (
                                 <div key={user.id} className="personOnline">
@@ -33,7 +32,7 @@ export default function OnlineUsers() {
                             );
                         })}
                 </div>
-                <div className="peopleAfterLogout">
+                {/* <div className="peopleAfterLogout">
                     {peopleOffline &&
                         peopleOnline &&
                         peopleOnline.map((user) => {
@@ -53,7 +52,7 @@ export default function OnlineUsers() {
                             );
                         })}
                     somebody just left
-                </div>
+                </div> */}
             </div>
         </div>
     );
