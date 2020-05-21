@@ -29,7 +29,7 @@ export default function Friends() {
     console.log("***those are the friends", friends);
 
     return (
-        <div>
+        <div className="friends-wannabes-container">
             <div>
                 {wannabes && !wannabes.length && (
                     <h5>People do not want to be your friends!</h5>
@@ -38,50 +38,56 @@ export default function Friends() {
                     <h5>People want to be your friends!</h5>
                 )}
             </div>
-            {wannabes &&
-                wannabes.map((user) => (
-                    <div key={user.id}>
-                        <Link to={`/user/${user.id}`}>
-                            <ProfilePic
-                                first={user.first}
-                                last={user.last}
-                                imageUrl={user.image_url}
-                            />
-                            <div>
-                                {user.first} {user.last}
-                            </div>
-                        </Link>
-                        <button
-                            onClick={() => dispatch(acceptFriendship(user.id))}
-                        >
-                            Accept
-                        </button>
-                    </div>
-                ))}
+            <div className="friends-wannabes">
+                {wannabes &&
+                    wannabes.map((user) => (
+                        <div key={user.id}>
+                            <Link to={`/user/${user.id}`}>
+                                <ProfilePic
+                                    first={user.first}
+                                    last={user.last}
+                                    imageUrl={user.image_url}
+                                />
+                                <div>
+                                    {user.first} {user.last}
+                                </div>
+                            </Link>
+                            <button
+                                onClick={() =>
+                                    dispatch(acceptFriendship(user.id))
+                                }
+                            >
+                                Accept
+                            </button>
+                        </div>
+                    ))}
+            </div>
             <div>
                 {friends && !friends.length && <h5>You are not popular!</h5>}
                 {friends && friends.length && <h5>You are so popular!</h5>}
             </div>
-            {friends &&
-                friends.map((user) => (
-                    <div key={user.id}>
-                        <Link to={`/user/${user.id}`}>
-                            <ProfilePic
-                                first={user.first}
-                                last={user.last}
-                                imageUrl={user.image_url}
-                            />
-                            <div>
-                                {user.first} {user.last}
-                            </div>
-                        </Link>
-                        <button
-                            onClick={() => dispatch(endFriendship(user.id))}
-                        >
-                            End friendship
-                        </button>
-                    </div>
-                ))}
+            <div className="friends-wannabes">
+                {friends &&
+                    friends.map((user) => (
+                        <div key={user.id}>
+                            <Link to={`/user/${user.id}`}>
+                                <ProfilePic
+                                    first={user.first}
+                                    last={user.last}
+                                    imageUrl={user.image_url}
+                                />
+                                <div>
+                                    {user.first} {user.last}
+                                </div>
+                            </Link>
+                            <button
+                                onClick={() => dispatch(endFriendship(user.id))}
+                            >
+                                End friendship
+                            </button>
+                        </div>
+                    ))}
+            </div>
         </div>
     );
 }

@@ -44,12 +44,11 @@ export default function FindPeople() {
     }
 
     return (
-        <div>
-            <h1>Find People</h1>
-            <p>Checkout who joined!</p>
-            <div>
+        <div className="find-people-container">
+            <h2>Checkout who joined recently!</h2>
+            <div className="find-people">
                 {users.map((each) => (
-                    <div key={each.id}>
+                    <div key={each.id} className="people">
                         <Link to={`/user/${each.id}`}>
                             <img
                                 className="mini-profile-pic"
@@ -62,8 +61,10 @@ export default function FindPeople() {
                     </div>
                 ))}
             </div>
-            <p>Are you looking for someone in particular?</p>
-            <input onChange={onChange} placeholder="Enter name" />
+            <div className="search">
+                <p>Are you looking for someone in particular?</p>
+                <input onChange={onChange} placeholder="Enter name" />
+            </div>
         </div>
     );
 }

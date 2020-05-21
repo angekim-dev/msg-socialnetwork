@@ -33,36 +33,35 @@ export default class BioEditor extends React.Component {
 
     render() {
         return (
-            <div>
-                <p>BIOEDITOR</p>
+            <div className="bio-container">
                 {this.state.inProgress && (
-                    <div>
+                    <div className="bio">
                         <textarea
+                            className="bio-text"
                             defaultValue={this.props.bio}
                             onChange={(e) => this.handleChange(e)}
                         ></textarea>
-                        <button id="save" onClick={(e) => this.writeBio(e)}>
+                        <button onClick={(e) => this.writeBio(e)}>
                             Save Bio
                         </button>
                     </div>
                 )}
                 {!this.props.bio && (
-                    <button
-                        id="add"
+                    <p
+                        id="add-bio"
                         onClick={() =>
                             this.setState({
                                 inProgress: true,
                             })
                         }
                     >
-                        Add Bio
-                    </button>
+                        Tell us more about yourself!
+                    </p>
                 )}
                 {this.props.bio && (
-                    <div>
-                        <div>{this.props.bio}</div>
+                    <div className="bio">
+                        <div className="bio-text">{this.props.bio}</div>
                         <button
-                            id="edit"
                             onClick={() =>
                                 this.setState({
                                     inProgress: true,

@@ -26,7 +26,8 @@ module.exports.getRecentUsers = () => {
 module.exports.getSearchedUsers = (val) => {
     return db.query(
         `SELECT * FROM users
-        WHERE first ILIKE $1;`,
+        WHERE first ILIKE $1
+        ORDER BY first LIMIT 6;`,
         [val + "%"]
     );
 };

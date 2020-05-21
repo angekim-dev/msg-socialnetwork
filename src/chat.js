@@ -39,7 +39,7 @@ export default function Chat() {
     };
     return (
         <div className="chat">
-            <p className="chat-title">Welcome to Chat</p>
+            <h2 className="chat-title">Welcome to the chat room</h2>
             <div className="chat-messages-container" ref={elemRef}>
                 {chatMessages &&
                     chatMessages.map((text) => {

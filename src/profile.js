@@ -11,24 +11,21 @@ export default function Profile({
     saveBio,
 }) {
     return (
-        <div>
+        <div className="profile-container">
             <h1>
-                Welcome to your profile {first} {last}.
+                Welcome to your profile {first} {last}!
             </h1>
-            {/* <ProfilePic
-                first={first}
-                last={last}
-                imageUrl={imageUrl}
-                toggleModal={toggleModal}
-            /> */}
-            <img
-                className="mini-profile-pic"
-                src={imageUrl}
-                alt={`${first} ${last}`}
-                onClick={toggleModal}
-            />
-            {first} {last}
-            <BioEditor bio={bio} saveBio={saveBio} />
+            <div className="profile">
+                <img
+                    src={imageUrl}
+                    alt={`${first} ${last}`}
+                    onClick={toggleModal}
+                />
+                <BioEditor bio={bio} saveBio={saveBio} />
+            </div>
+            <div className="profile-name">
+                {first} {last}
+            </div>
         </div>
     );
 }

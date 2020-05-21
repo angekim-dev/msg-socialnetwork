@@ -35,7 +35,7 @@ export default function FriendshipButton({ otherId }) {
     }
 
     return (
-        <div>
+        <div className="otherprofile-container-button">
             <button onClick={submit}>{buttonText}</button>
         </div>
     );
